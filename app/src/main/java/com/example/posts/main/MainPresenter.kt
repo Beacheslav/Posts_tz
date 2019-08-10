@@ -7,6 +7,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainPresenter(view: MainContract.View) : MainContract.Presenter {
+
     private val mView = view //todo  проверка на нуль
     lateinit var mPosts: ArrayList<Post>
 
@@ -14,7 +15,6 @@ class MainPresenter(view: MainContract.View) : MainContract.Presenter {
         mView.setPresenter(this)
     }
     override fun loadList() {
-        mView.showProgressBar()
 
         val apiSomaku = ApiSomaku.create()
         apiSomaku.getPosts().enqueue(object : Callback<ArrayList<Post>>{
@@ -29,15 +29,6 @@ class MainPresenter(view: MainContract.View) : MainContract.Presenter {
                 }
             }
         })
-
-
-//        if(code == 401) mView.showLoadError()
-//        if (code == 200) {
-//            mView.updateUi()
-//
-//        }
-        mView.hideProgressBar()
-        mView.showLoadError()
     }
 
     override fun start() {

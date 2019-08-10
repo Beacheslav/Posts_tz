@@ -16,9 +16,8 @@ import kotlinx.android.synthetic.main.fragment_main.view.*
 
 class MainFragment : Fragment(), MainContract.View{
 
-    private lateinit var v: View
     lateinit var mPresenter: MainContract.Presenter
-    lateinit var adapter: PostsAdapter
+    lateinit var mAdapter: PostsAdapter
 
 
     override fun  setPresenter(presenter: MainContract.Presenter) {
@@ -29,10 +28,10 @@ class MainFragment : Fragment(), MainContract.View{
     @SuppressLint("WrongConstant")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        v = inflater.inflate(R.layout.fragment_main, container, false)
+        val v = inflater.inflate(R.layout.fragment_main, container, false)
         v.rv_posts.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        adapter = PostsAdapter(null, context)
-        v.rv_posts.adapter = adapter
+        mAdapter = PostsAdapter(null, context)
+        v.rv_posts.adapter = mAdapter
 
         return v
     }
@@ -51,8 +50,8 @@ class MainFragment : Fragment(), MainContract.View{
     }
 
     override fun updateListUi(posts : ArrayList<Post>) {
-        adapter.posts = posts
-        adapter.notifyDataSetChanged()
+        mAdapter.posts = posts
+        mAdapter.notifyDataSetChanged()
     }
 
     override fun updateUi() {

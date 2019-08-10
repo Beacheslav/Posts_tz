@@ -1,15 +1,24 @@
 package com.example.posts
 
+import com.example.posts.models.Autor
+import com.example.posts.models.Comment
 import com.example.posts.models.Post
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ApiSomaku {
 
     @GET("/posts")
     fun getPosts(): Call<ArrayList<Post>>
+
+    @GET("/comments")
+    fun getComments(@Query("postId") id : Int): Call<ArrayList<Comment>>
+
+    @GET("/users")
+    fun getAutor(@Query("id") id : Int): Call<ArrayList<Autor>>
 
     companion object Factory {
         fun create(): ApiSomaku {
