@@ -18,26 +18,34 @@ class DetailFragment : Fragment(), DetailContract.View {
 
     lateinit var mPresenter: DetailContract.Presenter
     lateinit var mAdapter: CommentsAdapter
+    lateinit var mPost : Post
 
     override fun  setPresenter(presenter: DetailContract.Presenter) {
-        mPresenter = presenter //todo  проверка на нуль
+        mPresenter = presenter
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments.let { mPost = it?.getParcelable("post")!! }
+    }
 
     @SuppressLint("WrongConstant")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
+        mPresenter.start()
         val v = inflater.inflate(R.layout.fragment_detail, container, false)
         v.rv_comments.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
         mAdapter = CommentsAdapter(null, null, context)
         v.rv_comments.adapter = mAdapter
+
+        mPresenter.loadComments(mPost)
+        mPresenter.loadAutor(mPost.userId)
         return v
     }
 
 
     override fun onResume() {
         super.onResume()
-        mPresenter.start()
     }
 
 
@@ -49,11 +57,9 @@ class DetailFragment : Fragment(), DetailContract.View {
 
 
     override fun updateListUi(comments : ArrayList<Comment>?, post : Post?, autor: Autor?) {
-        var listType = ArrayList<RowType>()
-        if (comments!= null){
+        var listType : ArrayList<RowType>? = null
+        if (comments!= null && post!= null){
             listType = comments as ArrayList<RowType>
-        }
-        if (post!= null){
             listType.add(0, post)
             listType.add(1, Category("Comments"))
         }
@@ -75,8 +81,8 @@ class DetailFragment : Fragment(), DetailContract.View {
     }
 
     companion object {
-        fun getInstance() : DetailFragment{
-            return DetailFragment()
+        fun getInstance(post : Post) : DetailFragment{
+            return DetailFragment().apply { arguments = Bundle().apply { putParcelable("post", post) } }
         }
     }
 }

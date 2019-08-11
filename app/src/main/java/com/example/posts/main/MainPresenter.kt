@@ -8,7 +8,7 @@ import retrofit2.Response
 
 class MainPresenter(view: MainContract.View) : MainContract.Presenter {
 
-    private val mView = view //todo  проверка на нуль
+    private val mView = view
     lateinit var mPosts: ArrayList<Post>
 
     init {

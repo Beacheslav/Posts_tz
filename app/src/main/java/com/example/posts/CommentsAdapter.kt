@@ -1,10 +1,12 @@
 package com.example.posts
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.posts.info.InfoActivity
 import com.example.posts.models.*
 import kotlinx.android.synthetic.main.item_category.view.*
 import kotlinx.android.synthetic.main.item_comment.view.*
@@ -93,6 +95,16 @@ class CommentsAdapter (var listType : ArrayList<RowType>?, var autor: Autor?, va
             itemView.tv_name.text = comment.name
             itemView.tv_email.text = comment.email
             itemView.tv_body.text = comment.body
+
+            itemView.setOnClickListener(View.OnClickListener { v->
+                if (context != null){
+//                    Toast.makeText(context, "Click on id:" + post.id, Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent (context, InfoActivity :: class.java)
+                    intent.putExtra("user_id", comment.id)
+                    context.startActivity(intent)
+                }
+            })
         }
     }
 }

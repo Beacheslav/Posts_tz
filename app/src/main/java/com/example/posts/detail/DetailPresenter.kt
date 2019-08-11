@@ -10,7 +10,7 @@ import retrofit2.Response
 
 class DetailPresenter(view: DetailContract.View) : DetailContract.Presenter {
 
-    private val mView = view //todo  проверка на нуль
+    private val mView = view
     private var mComments : ArrayList<Comment>? = null
     private var mAutor : Autor? = null
     private var mPost : Post? = null
@@ -55,6 +55,5 @@ class DetailPresenter(view: DetailContract.View) : DetailContract.Presenter {
 
     override fun start() {
         if (!mView.isActive()) return
-        //mView.initAdapter()
     }
 }

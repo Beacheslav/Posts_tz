@@ -1,5 +1,6 @@
 package com.example.posts
 
+import com.example.posts.models.Album
 import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
@@ -19,6 +20,9 @@ interface ApiSomaku {
 
     @GET("/users")
     fun getAutor(@Query("id") id : Int): Call<ArrayList<Autor>>
+
+    @GET("/albums")
+    fun getAlbums(@Query("userId") id : Int): Call<ArrayList<Album>>
 
     companion object Factory {
         fun create(): ApiSomaku {

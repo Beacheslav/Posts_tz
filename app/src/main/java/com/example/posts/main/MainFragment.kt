@@ -21,7 +21,7 @@ class MainFragment : Fragment(), MainContract.View{
 
 
     override fun  setPresenter(presenter: MainContract.Presenter) {
-        mPresenter = presenter //todo  проверка на нуль
+        mPresenter = presenter
     }
 
 
@@ -32,6 +32,7 @@ class MainFragment : Fragment(), MainContract.View{
         v.rv_posts.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
         mAdapter = PostsAdapter(null, context)
         v.rv_posts.adapter = mAdapter
+        mPresenter.loadList()
 
         return v
     }

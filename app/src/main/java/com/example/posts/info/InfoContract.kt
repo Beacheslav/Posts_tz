@@ -1,18 +1,17 @@
-package com.example.posts.detail
+package com.example.posts.info
 
 import com.example.posts.base.BasePresenter
 import com.example.posts.base.BaseView
+import com.example.posts.models.Album
 import com.example.posts.models.Autor
-import com.example.posts.models.Comment
-import com.example.posts.models.Post
 
-interface DetailContract {
+interface InfoContract {
 
     interface Presenter : BasePresenter {
 
-        fun loadComments(post: Post)
+        fun loadListAlbum(id : Int?)
 
-        fun loadAutor(id : Int)
+        fun loadAutor(id : Int?)
 
     }
 
@@ -22,9 +21,11 @@ interface DetailContract {
 
         fun hideProgressBar()
 
-        fun updateListUi(list : ArrayList<Comment>?, post : Post?, autor: Autor?)
+        fun updateUi()
 
         fun showLoadError()
+
+        fun updateListUi(list : ArrayList<Album>?, autor : Autor?)
 
     }
 }
