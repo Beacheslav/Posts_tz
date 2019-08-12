@@ -73,7 +73,7 @@ class CommentsAdapter (var listType : ArrayList<RowType>?, var autor: Autor?, va
 
         fun bindPost(post : Post){
             itemView.tv_title.text = post.title
-            itemView.tv_description.text = post.body
+            itemView.tv_description.text = post.body.replace("\n", "\\n", false)
             if (autor != null) {
                 val textAutor = "(" + autor.name + ", " + autor.username + ", " + autor.email + ")"
                 itemView.tv_autor.text = textAutor
@@ -84,7 +84,8 @@ class CommentsAdapter (var listType : ArrayList<RowType>?, var autor: Autor?, va
     class CategoryHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
         fun bindCategory(category: Category){
-            itemView.tv_category.text = category.category
+            val text = category.category
+            itemView.tv_category.text = text
 
         }
     }
@@ -98,7 +99,6 @@ class CommentsAdapter (var listType : ArrayList<RowType>?, var autor: Autor?, va
 
             itemView.setOnClickListener(View.OnClickListener { v->
                 if (context != null){
-//                    Toast.makeText(context, "Click on id:" + post.id, Toast.LENGTH_SHORT).show()
 
                     val intent = Intent (context, InfoActivity :: class.java)
                     intent.putExtra("user_id", comment.id)
