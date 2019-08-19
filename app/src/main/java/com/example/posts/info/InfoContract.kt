@@ -13,6 +13,8 @@ interface InfoContract {
 
         fun loadAutor(id : Int?)
 
+        fun loadPhotos(id : Int)
+
     }
 
     interface View : BaseView<Presenter> {
@@ -22,6 +24,8 @@ interface InfoContract {
         fun hideProgressBar()
 
         fun updateUi()
+
+        fun updatePhotoCount(count: Int, id : Int)
 
         fun showLoadError()
 

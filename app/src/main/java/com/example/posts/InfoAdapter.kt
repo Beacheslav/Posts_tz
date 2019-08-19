@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.posts.models.Album
 import com.example.posts.models.Autor
 import com.example.posts.models.RowType
+import kotlinx.android.synthetic.main.item_album.view.*
 import kotlinx.android.synthetic.main.item_autor.view.*
 import kotlinx.android.synthetic.main.item_header.view.*
+import kotlinx.android.synthetic.main.item_header.view.tv_title
 
 class InfoAdapter (var listType : ArrayList<RowType>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
@@ -47,6 +49,16 @@ class InfoAdapter (var listType : ArrayList<RowType>?) : RecyclerView.Adapter<Re
             listType!!.size
         } else {
             0
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if(payloads.isNotEmpty()) {
+            if (payloads[0] is Integer) {
+                holder.itemView.tv_photo_count.text = (payloads[0].toString() + " Photo")
+            }
+        }else {
+            super.onBindViewHolder(holder,position, payloads)
         }
     }
 

@@ -18,18 +18,19 @@ import kotlinx.android.synthetic.main.fragment_info.view.*
 
 class InfoFragment : Fragment(), InfoContract.View {
 
-    lateinit var mPresenter: InfoContract.Presenter
+    lateinit var mPresenter: InfoPresenter
     lateinit var mAdapter: InfoAdapter
     private var mUserId: Int? = null
 
 
     override fun  setPresenter(presenter: InfoContract.Presenter) {
-        mPresenter = presenter
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mUserId = it?.getInt("user_id")!! }
+        mPresenter = InfoPresenter()
     }
 
     @SuppressLint("WrongConstant")
@@ -39,8 +40,6 @@ class InfoFragment : Fragment(), InfoContract.View {
         v.rv_info.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
         mAdapter = InfoAdapter(null)
         v.rv_info.adapter = mAdapter
-        mPresenter.loadListAlbum(mUserId)
-        mPresenter.loadAutor(mUserId)
 
         return v
     }
@@ -48,14 +47,24 @@ class InfoFragment : Fragment(), InfoContract.View {
 
     override fun onResume() {
         super.onResume()
-        mPresenter.start()
+        mPresenter.mView = this
+        mPresenter.loadListAlbum(mUserId)
+        mPresenter.loadAutor(mUserId)
     }
 
+    override fun onPause() {
+        super.onPause()
+        mPresenter.mView = null
+    }
 
     override fun showLoadError() {
         if (context != null){
             Toast.makeText(context, "An error occurred during networking" , Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun updatePhotoCount(count: Int, id: Int) {
+        mAdapter.notifyItemChanged(id%10 + 1, count)               //FIXME: КОСТЫЛЬ
     }
 
     override fun updateListUi(albums : ArrayList<Album>?, autor: Autor?) {
