@@ -5,7 +5,6 @@ import com.example.posts.base.BaseView
 import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
-import com.example.posts.models.RowType
 
 interface DetailContract {
 
@@ -14,6 +13,7 @@ interface DetailContract {
         fun loadComments(post: Post)
 
         fun loadAutor(id : Int)
+        fun itemClick(position: Int)
 
     }
 
@@ -22,6 +22,8 @@ interface DetailContract {
         fun showProgressBar()
 
         fun hideProgressBar()
+
+        fun showAlbums(comment: Comment)
 
         fun updateListUi(listType : ArrayList<Comment>?, autor: Autor?)
 

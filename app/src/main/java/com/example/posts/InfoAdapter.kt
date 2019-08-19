@@ -11,7 +11,7 @@ import com.example.posts.models.RowType
 import kotlinx.android.synthetic.main.item_autor.view.*
 import kotlinx.android.synthetic.main.item_header.view.*
 
-class InfoAdapter (var listType : ArrayList<RowType>?, val context : Context?) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class InfoAdapter (var listType : ArrayList<RowType>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     override fun getItemViewType(position: Int): Int {
         if (listType == null) {
@@ -53,8 +53,8 @@ class InfoAdapter (var listType : ArrayList<RowType>?, val context : Context?) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (listType != null) {
             when(holder){
-                is AutorHolder -> (holder as AutorHolder).bindAutor(listType!![position] as Autor)
-                is AlbumHolder -> (holder as AlbumHolder).bindAlbum(listType!![position] as Album)
+                is AutorHolder -> holder.bindAutor(listType!![position] as Autor)
+                is AlbumHolder -> holder.bindAlbum(listType!![position] as Album)
             }
         }
     }

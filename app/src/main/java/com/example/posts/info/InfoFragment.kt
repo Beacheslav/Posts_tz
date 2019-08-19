@@ -37,7 +37,7 @@ class InfoFragment : Fragment(), InfoContract.View {
 
         val v = inflater.inflate(R.layout.fragment_info, container, false)
         v.rv_info.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        mAdapter = InfoAdapter(null, context)
+        mAdapter = InfoAdapter(null)
         v.rv_info.adapter = mAdapter
         mPresenter.loadListAlbum(mUserId)
         mPresenter.loadAutor(mUserId)

@@ -5,6 +5,8 @@ import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
 import com.example.posts.models.RowType
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,39 +18,44 @@ class DetailPresenter : DetailContract.Presenter {
     private var mAutor : Autor? = null
     private var mPost : Post? = null
 
+    override fun itemClick(position: Int) {
+        if (mComments == null) return
+        val item = mComments!![position]
+        mView?.showAlbums(item)
+    }
+
     override fun loadComments(post : Post) {
 
         val apiSomaku = ApiSomaku.create()
-        apiSomaku.getComments(post.id).enqueue(object : Callback<ArrayList<Comment>> {
-            override fun onFailure(call: Call<ArrayList<Comment>>?, t: Throwable?) {
-                //
-            }
-
-            override fun onResponse(call: Call<ArrayList<Comment>>?, response: Response<ArrayList<Comment>>?) {
-                if (response != null) {
+        apiSomaku.getComments(post.id)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ result ->
+                if (result != null) {
                     mPost = post
-                    mComments = response.body() as ArrayList<Comment>
+                    mComments = result as ArrayList<Comment>
                     mView?.updateListUi(mComments, mAutor)
                 }
-            }
-        })
+            }, { error ->
+                error.printStackTrace()
+            })
     }
 
     override fun loadAutor(id: Int) {
-        val apiSomaku = ApiSomaku.create()
-        apiSomaku.getAutor(id).enqueue(object : Callback<ArrayList<Autor>> {
-            override fun onFailure(call: Call<ArrayList<Autor>>?, t: Throwable?) {
-//                mView.showLoadError()
-            }
 
-            override fun onResponse(call: Call<ArrayList<Autor>>?, response: Response<ArrayList<Autor>>?) {
-                if (response != null) {
-                    val listAutor = response.body() as ArrayList<Autor>
+        val apiSomaku = ApiSomaku.create()
+        apiSomaku.getAutor(id)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ result ->
+                if (result != null) {
+                    val listAutor = result as ArrayList<Autor>
                     mAutor = listAutor[0]
                     mView?.updateListUi(mComments, mAutor)
                 }
-            }
-        })
+            }, { error ->
+                error.printStackTrace()
+            })
     }
 
     override fun start() {

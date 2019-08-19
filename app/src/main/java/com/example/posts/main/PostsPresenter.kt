@@ -1,13 +1,9 @@
 package com.example.posts.main
 
-import android.util.Log
 import com.example.posts.ApiSomaku
 import com.example.posts.models.Post
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class PostsPresenter : PostsContract.Presenter {
 
@@ -26,8 +22,7 @@ class PostsPresenter : PostsContract.Presenter {
         apiSomaku.getPosts()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe ({
-                    result ->
+            .subscribe({ result ->
                 if (result != null) {
                     mPosts = result as ArrayList<Post>
                     val copy = ArrayList(mPosts)

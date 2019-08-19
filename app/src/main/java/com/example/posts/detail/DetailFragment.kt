@@ -1,7 +1,9 @@
 package com.example.posts.detail
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.posts.CommentsAdapter
 import com.example.posts.R
+import com.example.posts.info.InfoActivity
 import com.example.posts.models.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
@@ -36,7 +39,9 @@ class DetailFragment : Fragment(), DetailContract.View {
         mPresenter.start()
         val v = inflater.inflate(R.layout.fragment_detail, container, false)
         v.rv_comments.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        mAdapter = CommentsAdapter(null, null, mPost)
+        mAdapter = CommentsAdapter(null, null, mPost){
+            mPresenter.itemClick(it)
+        }
         v.rv_comments.adapter = mAdapter
 
 
@@ -54,6 +59,14 @@ class DetailFragment : Fragment(), DetailContract.View {
     override fun onPause() {
         super.onPause()
         mPresenter.mView = null
+    }
+
+    override fun showAlbums(comment: Comment) {
+        if (context == null) return
+        val intent = Intent (context, InfoActivity :: class.java)
+        intent.putExtra("user_id", comment.id)
+        Log.i("Comment.id : ", comment.id.toString())
+        context!!.startActivity(intent)
     }
 
     override fun showLoadError() {
