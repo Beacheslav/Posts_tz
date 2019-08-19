@@ -1,7 +1,10 @@
 package com.example.posts.main
 
+import android.util.Log
 import com.example.posts.ApiSomaku
 import com.example.posts.models.Post
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,14 +22,14 @@ class PostsPresenter : PostsContract.Presenter {
     override fun loadList() {
 
         val apiSomaku = ApiSomaku.create()
-        apiSomaku.getPosts().enqueue(object : Callback<ArrayList<Post>>{
-            override fun onFailure(call: Call<ArrayList<Post>>?, t: Throwable?) {
-                mView?.showLoadError()
-            }
 
-            override fun onResponse(call: Call<ArrayList<Post>>?, response: Response<ArrayList<Post>>?) {
-                if (response != null) {
-                    mPosts = response.body() as ArrayList<Post>
+        apiSomaku.getPosts()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe ({
+                    result ->
+                if (result != null) {
+                    mPosts = result as ArrayList<Post>
                     val copy = ArrayList(mPosts)
                     copy.forEach {
                         it.title.replace("\n", " ")
@@ -35,8 +38,9 @@ class PostsPresenter : PostsContract.Presenter {
                     mView?.updateListUi(copy)
 
                 }
-            }
-        })
+            }, { error ->
+                error.printStackTrace()
+            })
     }
 
     override fun start() {

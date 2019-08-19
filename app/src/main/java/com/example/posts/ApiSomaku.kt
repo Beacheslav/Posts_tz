@@ -4,8 +4,10 @@ import com.example.posts.models.Album
 import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
+import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,7 +15,7 @@ import retrofit2.http.Query
 interface ApiSomaku {
 
     @GET("/posts")
-    fun getPosts(): Call<ArrayList<Post>>
+    fun getPosts(): Observable<ArrayList<Post>>
 
     @GET("/comments")
     fun getComments(@Query("postId") id : Int): Call<ArrayList<Comment>>
@@ -29,6 +31,7 @@ interface ApiSomaku {
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("http://www.somaku.com")
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
 
             return retrofit.create(ApiSomaku::class.java)
