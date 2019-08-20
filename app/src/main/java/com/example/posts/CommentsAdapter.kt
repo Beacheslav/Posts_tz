@@ -16,23 +16,27 @@ class CommentsAdapter(
     val clickListener: (position: Int) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val POST_TYPE = 0
+    private val CATEGORY_TYPE = 1
+    private val COMMENT_TYPE = 2
+
     override fun getItemViewType(position: Int): Int {
 
         when (position) {
-            0 -> return RowType.POST_TYPE
-            1 -> return RowType.CATEGORY_TYPE
-            else -> return RowType.COMMENT_TYPE
+            0 -> return POST_TYPE
+            1 -> return CATEGORY_TYPE
+            else -> return COMMENT_TYPE
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
-            RowType.POST_TYPE -> {
+            POST_TYPE -> {
                 val v = LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false)
                 return PostHolder(v)
             }
-            RowType.CATEGORY_TYPE -> {
+            CATEGORY_TYPE -> {
                 val v = LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false)
                 return CategoryHolder(v)
             }

@@ -1,9 +1,11 @@
 package com.example.posts.info
 
+import android.util.Log
 import com.example.posts.ApiSomaku
 import com.example.posts.models.Album
 import com.example.posts.models.Autor
 import com.example.posts.models.Photo
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -12,7 +14,6 @@ class InfoPresenter : InfoContract.Presenter {
     public var mView: InfoContract.View? = null
     private var mAlbums: ArrayList<Album>? = null
     private var mAutor: Autor? = null
-    private var mPhotos: ArrayList<Photo>? = null
 
     override fun loadAutor(userId: Int?) {
         if (userId == null) return
@@ -24,13 +25,10 @@ class InfoPresenter : InfoContract.Presenter {
             .subscribe({ result ->
                 if (result != null) {
                     val resp = result as ArrayList<Autor>
-                    if (resp.size != 0) {
-                        val mAutor = resp[0]
-                        mView?.updateListUi(mAlbums, mAutor)
-                    } else {
-                        mView?.updateListUi(mAlbums, null)
+                    if (resp.isNotEmpty()) {
+                        mAutor = resp[0]
                     }
-
+                    mView?.updateListUi(mAlbums, mAutor)
                 }
             }, { error ->
                 mView?.showLoadError()
@@ -48,12 +46,9 @@ class InfoPresenter : InfoContract.Presenter {
             .subscribe({ result ->
                 if (result != null) {
                     mAlbums = result as ArrayList<Album>
+                    Log.i("loadListAlbum ", mAlbums!!.count().toString())
                     mView?.updateListUi(mAlbums, mAutor)
-
-                    for (album in mAlbums!!){
-                        loadPhotos(album.id)
-                    }
-
+                    loadPhotos()
                 }
             }, { error ->
                 mView?.showLoadError()
@@ -61,20 +56,49 @@ class InfoPresenter : InfoContract.Presenter {
             })
     }
 
-    override fun loadPhotos(id: Int) {
+    private fun loadPhotos() {
+        Log.i("loadPhotos ", "vnutri")
         val apiSomaku = ApiSomaku.create()
-        apiSomaku.getPhotos(id)
+        Log.i("loadPhotos ", mAlbums.toString())
+        val o = Observable.fromIterable(ArrayList(mAlbums))
+            .map {
+                it.id
+                Log.i("loadPhotos id: ", it.id.toString())
+            }
+            .flatMapSingle {
+                apiSomaku.getPhotos(it)
+            }
+            .map {
+                it.size
+                Log.i("loadPhotos id: ", it.size.toString())
+            }
+            .toList()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                if (result != null) {
-                    mPhotos = result as ArrayList<Photo>
-                    mView?.updatePhotoCount(mPhotos!!.size, id)
-                }
-            }, { error ->
-                mView?.showLoadError()
-                error.printStackTrace()
+            .subscribe({
+                mView?.showCounts(it)
+                Log.i("loadPhotos ", it.count().toString())
+                Log.i("loadPhotos mview", mView.toString())
+            }, {
+                it.printStackTrace()
             })
+    }
+
+    override fun loadPhotos(id: Int) {
+//        val apiSomaku = ApiSomaku.create()
+//        apiSomaku.getPhotos(id)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe({ result ->
+//                if (result != null) {
+//                    mPhotos = result as ArrayList<Photo>
+//                    mView?.updatePhotoCount(mPhotos!!.size, id)
+//                    mPhotos = null
+//                }
+//            }, { error ->
+//                mView?.showLoadError()
+//                error.printStackTrace()
+//            })
     }
 
     override fun start() {

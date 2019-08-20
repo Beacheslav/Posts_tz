@@ -30,6 +30,7 @@ interface InfoContract {
         fun showLoadError()
 
         fun updateListUi(list : ArrayList<Album>?, autor : Autor?)
+        fun showCounts(counts: List<Int>)
 
     }
 }

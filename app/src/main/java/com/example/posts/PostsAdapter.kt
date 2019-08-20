@@ -12,13 +12,12 @@ import kotlinx.android.synthetic.main.item_post.view.*
 
 class PostsAdapter(
     var posts: ArrayList<Post>?,
-    val context: Context?,
     val clickListener: (position: Int) -> Unit
 ) : RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
-        return ViewHolder(v, context)
+        return ViewHolder(v)
     }
 
     override fun getItemCount(): Int {
@@ -38,7 +37,7 @@ class PostsAdapter(
         }
     }
 
-    class ViewHolder(itemView : View, val context : Context?) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
         fun bindPost(post : Post){
             itemView.tv_title.text = post.title

@@ -44,6 +44,10 @@ class InfoFragment : Fragment(), InfoContract.View {
         return v
     }
 
+    override fun showCounts(counts: List<Int>) {
+        mAdapter.setCounts(counts)
+        mAdapter.notifyDataSetChanged()
+    }
 
     override fun onResume() {
         super.onResume()
@@ -72,6 +76,7 @@ class InfoFragment : Fragment(), InfoContract.View {
         if (albums!= null && autor!= null){
             listType = albums as ArrayList<RowType>
             listType.add(0, autor)
+
         }
         mAdapter.listType = listType
         mAdapter.notifyDataSetChanged()

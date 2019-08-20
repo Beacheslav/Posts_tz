@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.item_header.view.tv_title
 
 class InfoAdapter (var listType : ArrayList<RowType>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
+    private val counts: MutableList<Int> = emptyList<Int>().toMutableList()
+
     override fun getItemViewType(position: Int): Int {
         if (listType == null) {
             return -1
@@ -52,23 +54,23 @@ class InfoAdapter (var listType : ArrayList<RowType>?) : RecyclerView.Adapter<Re
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
-        if(payloads.isNotEmpty()) {
-            if (payloads[0] is Integer) {
-                holder.itemView.tv_photo_count.text = (payloads[0].toString() + " Photo")
-            }
-        }else {
-            super.onBindViewHolder(holder,position, payloads)
-        }
-    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (listType != null) {
             when(holder){
                 is AutorHolder -> holder.bindAutor(listType!![position] as Autor)
-                is AlbumHolder -> holder.bindAlbum(listType!![position] as Album)
+                is AlbumHolder ->{
+                    if (counts.isNotEmpty()){
+                        holder.bindAlbum(listType!![position] as Album, counts[position - 1])
+                    }else{
+                        holder.bindAlbum(listType!![position] as Album)
+                    }
+                }
             }
         }
+    }
+
+    fun setCounts(counts: List<Int>) {
+        this.counts.addAll(counts)
     }
 
 
@@ -85,6 +87,11 @@ class InfoAdapter (var listType : ArrayList<RowType>?) : RecyclerView.Adapter<Re
 
         fun bindAlbum(album: Album){
             itemView.tv_title.text = album.title
+        }
+
+        fun bindAlbum(album: Album, counts: Int){
+            itemView.tv_title.text = album.title
+            itemView.tv_photo_count.text = counts.toString() + " Photo"
         }
     }
 }

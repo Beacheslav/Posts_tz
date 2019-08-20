@@ -33,7 +33,7 @@ class PostsFragment : Fragment(), PostsContract.View{
 
         val v = inflater.inflate(R.layout.fragment_main, container, false)
         v.rv_posts.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        mAdapter = PostsAdapter(null, context){
+        mAdapter = PostsAdapter(null){
             mPresenter.itemClick(it)
         }
         v.rv_posts.adapter = mAdapter

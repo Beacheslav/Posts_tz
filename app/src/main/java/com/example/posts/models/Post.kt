@@ -8,7 +8,7 @@ data class Post(
     val id: Int,
     val title: String,
     val body: String
-) : Parcelable, RowType{
+) : Parcelable{
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
