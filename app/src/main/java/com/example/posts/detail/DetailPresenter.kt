@@ -4,12 +4,8 @@ import com.example.posts.ApiSomaku
 import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
-import com.example.posts.models.RowType
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailPresenter : DetailContract.Presenter {
 

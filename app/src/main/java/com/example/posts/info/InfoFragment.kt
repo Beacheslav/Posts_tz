@@ -13,7 +13,6 @@ import com.example.posts.InfoAdapter
 import com.example.posts.R
 import com.example.posts.models.Album
 import com.example.posts.models.Autor
-import com.example.posts.models.RowType
 import kotlinx.android.synthetic.main.fragment_info.view.*
 
 class InfoFragment : Fragment(), InfoContract.View {
@@ -72,13 +71,8 @@ class InfoFragment : Fragment(), InfoContract.View {
     }
 
     override fun updateListUi(albums : ArrayList<Album>?, autor: Autor?) {
-        var listType : ArrayList<RowType>? = null
-        if (albums!= null && autor!= null){
-            listType = albums as ArrayList<RowType>
-            listType.add(0, autor)
-
-        }
-        mAdapter.listType = listType
+        mAdapter.albums = albums
+        mAdapter.autor = autor
         mAdapter.notifyDataSetChanged()
     }
 
