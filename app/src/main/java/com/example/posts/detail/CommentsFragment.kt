@@ -17,20 +17,20 @@ import com.example.posts.info.InfoActivity
 import com.example.posts.models.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
-class DetailFragment : Fragment(), DetailContract.View {
+class CommentsFragment : Fragment(), CommentsContract.View {
 
-    lateinit var mPresenter: DetailPresenter
+    lateinit var mPresenter: CommentsPresenter
     lateinit var mAdapter: CommentsAdapter
     lateinit var mPost : Post
 
-    override fun  setPresenter(presenter: DetailContract.Presenter) {
+    override fun  setPresenter(presenter: CommentsContract.Presenter) {
 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mPost = it?.getParcelable("post")!! }
-        mPresenter = DetailPresenter()
+        mPresenter = CommentsPresenter()
     }
 
     @SuppressLint("WrongConstant")
@@ -61,11 +61,11 @@ class DetailFragment : Fragment(), DetailContract.View {
         mPresenter.mView = null
     }
 
-    override fun showAlbums(comment: Comment) {
+    override fun showAlbums(userId: Int) {
         if (context == null) return
         val intent = Intent (context, InfoActivity :: class.java)
-        intent.putExtra("user_id", comment.id)
-        Log.i("Comment.id : ", comment.id.toString())
+        intent.putExtra("user_id", userId)
+        Log.i("Comment.id : ", userId.toString())
         context!!.startActivity(intent)
     }
 
@@ -95,8 +95,8 @@ class DetailFragment : Fragment(), DetailContract.View {
     }
 
     companion object {
-        fun getInstance(post : Post) : DetailFragment{
-            return DetailFragment().apply { arguments = Bundle().apply { putParcelable("post", post) } }
+        fun getInstance(post : Post) : CommentsFragment{
+            return CommentsFragment().apply { arguments = Bundle().apply { putParcelable("post", post) } }
         }
     }
 }

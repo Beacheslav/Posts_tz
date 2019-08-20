@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.posts.InfoAdapter
 import com.example.posts.R
-import com.example.posts.models.Album
 import com.example.posts.models.Autor
 import kotlinx.android.synthetic.main.fragment_info.view.*
 
@@ -37,21 +36,15 @@ class InfoFragment : Fragment(), InfoContract.View {
 
         val v = inflater.inflate(R.layout.fragment_info, container, false)
         v.rv_info.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
-        mAdapter = InfoAdapter(null)
+        mAdapter = InfoAdapter()
         v.rv_info.adapter = mAdapter
 
         return v
     }
 
-    override fun showCounts(counts: List<Int>) {
-        mAdapter.setCounts(counts)
-        mAdapter.notifyDataSetChanged()
-    }
-
     override fun onResume() {
         super.onResume()
         mPresenter.mView = this
-        mPresenter.loadListAlbum(mUserId)
         mPresenter.loadAutor(mUserId)
     }
 
@@ -70,10 +63,15 @@ class InfoFragment : Fragment(), InfoContract.View {
         mAdapter.notifyItemChanged(id%10 + 1, count)               //FIXME: КОСТЫЛЬ
     }
 
-    override fun updateListUi(albums : ArrayList<Album>?, autor: Autor?) {
-        mAdapter.albums = albums
-        mAdapter.autor = autor
-        mAdapter.notifyDataSetChanged()
+    override fun showList(list: List<InfoAdapter.Info>?) {
+        list?.let {
+            mAdapter.setInfo(it)
+            mAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun showAutor(mAutor: Autor?) {
+        mAdapter.setAutor(mAutor)
     }
 
     override fun updateUi() {

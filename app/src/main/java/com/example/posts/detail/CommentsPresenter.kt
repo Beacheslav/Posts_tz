@@ -7,17 +7,15 @@ import com.example.posts.models.Post
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class DetailPresenter : DetailContract.Presenter {
+class CommentsPresenter : CommentsContract.Presenter {
 
-    public var mView : DetailContract.View? = null
+    public var mView : CommentsContract.View? = null
     private var mComments : ArrayList<Comment>? = null
     private var mAutor : Autor? = null
     private var mPost : Post? = null
 
-    override fun itemClick(position: Int) {
-        if (mComments == null) return
-        val item = mComments!![position]
-        mView?.showAlbums(item)
+    override fun itemClick(id: Int) {
+        mView?.showAlbums(id)
     }
 
     override fun loadComments(post : Post) {

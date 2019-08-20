@@ -6,7 +6,7 @@ import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
 
-interface DetailContract {
+interface CommentsContract {
 
     interface Presenter : BasePresenter {
 
@@ -23,7 +23,7 @@ interface DetailContract {
 
         fun hideProgressBar()
 
-        fun showAlbums(comment: Comment)
+        fun showAlbums(userId : Int)
 
         fun updateListUi(listType : ArrayList<Comment>?, autor: Autor?)
 

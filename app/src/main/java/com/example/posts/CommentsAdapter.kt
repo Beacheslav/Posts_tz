@@ -53,14 +53,14 @@ class CommentsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is PostHolder -> holder.bindPost(post, autor)
-            is CategoryHolder -> holder.bindCategory()
-            is CommentHolder -> {
-                holder.bindComment(comments?.get(position - 2) ?: return)
+            is PostHolder -> {
+                holder.bindPost(post, autor)
                 holder.itemView.setOnClickListener {
-                    clickListener(position - 2)
+                    clickListener(post.userId)
                 }
             }
+            is CategoryHolder -> holder.bindCategory()
+            is CommentHolder -> holder.bindComment(comments?.get(position - 2) ?: return)
         }
 
     }

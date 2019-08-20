@@ -1,12 +1,9 @@
 package com.example.posts
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.posts.detail.DetailActivity
 import com.example.posts.models.Post
 import kotlinx.android.synthetic.main.item_post.view.*
 

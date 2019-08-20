@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.posts.PostsAdapter
 import com.example.posts.R
-import com.example.posts.detail.DetailActivity
+import com.example.posts.detail.CommentsActivity
 import com.example.posts.models.Post
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
@@ -43,7 +43,7 @@ class PostsFragment : Fragment(), PostsContract.View{
     }
 
     override fun showPost(item: Post) {
-        val intent = Intent (context, DetailActivity :: class.java)
+        val intent = Intent (context, CommentsActivity :: class.java)
         intent.putExtra("post", item)
         context?.startActivity(intent)
     }

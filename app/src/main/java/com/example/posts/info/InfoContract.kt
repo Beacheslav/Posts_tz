@@ -1,5 +1,6 @@
 package com.example.posts.info
 
+import com.example.posts.InfoAdapter
 import com.example.posts.base.BasePresenter
 import com.example.posts.base.BaseView
 import com.example.posts.models.Album
@@ -29,8 +30,8 @@ interface InfoContract {
 
         fun showLoadError()
 
-        fun updateListUi(list : ArrayList<Album>?, autor : Autor?)
-        fun showCounts(counts: List<Int>)
+        fun showList(list : List<InfoAdapter.Info>?)
+        fun showAutor(mAutor: Autor?)
 
     }
 }

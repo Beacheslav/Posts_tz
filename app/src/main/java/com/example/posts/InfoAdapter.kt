@@ -11,13 +11,27 @@ import kotlinx.android.synthetic.main.item_album.view.*
 import kotlinx.android.synthetic.main.item_autor.view.*
 import kotlinx.android.synthetic.main.item_header.view.tv_title
 
-class InfoAdapter (var albums : ArrayList<Album>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class InfoAdapter  : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
+    class Info(
+        val title: String,
+        val count: String
+    )
+    var albums : MutableList<Info> = emptyList<Info>().toMutableList()
     private val AUTOR_INFO_TYPE = 0
     private val ALBUM_TYPE = 1
     private val counts: MutableList<Int> = emptyList<Int>().toMutableList()
-    var autor : Autor? = null
+    private var autor : Autor? = null
 
+    fun setAutor(autor : Autor?){
+        this.autor = autor
+        notifyDataSetChanged()
+    }
+
+    fun setInfo(list: List<Info>){
+        albums.addAll(list)
+        notifyDataSetChanged()
+    }
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             0 -> AUTOR_INFO_TYPE
@@ -39,23 +53,13 @@ class InfoAdapter (var albums : ArrayList<Album>?) : RecyclerView.Adapter<Recycl
         }
     }
 
-    override fun getItemCount(): Int {
-        return if (albums != null) {
-            albums!!.size + 1
-        } else {
-            0
-        }
-    }
+    override fun getItemCount(): Int = albums.size + 1
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AutorHolder -> if (autor != null) holder.bindAutor(autor!!)
-            is AlbumHolder -> if (counts.isNotEmpty()) {
-                holder.bindAlbum(albums!![position] as Album, counts[position - 1])
-            } else {
-                holder.bindAlbum(albums!![position] as Album)
-            }
-
+            is AlbumHolder -> holder.bindAlbum(albums[position - 1])
         }
     }
 
@@ -75,13 +79,9 @@ class InfoAdapter (var albums : ArrayList<Album>?) : RecyclerView.Adapter<Recycl
 
     class AlbumHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
-        fun bindAlbum(album: Album){
-            itemView.tv_title.text = album.title
-        }
-
-        fun bindAlbum(album: Album, counts: Int){
-            itemView.tv_title.text = album.title
-            itemView.tv_photo_count.text = counts.toString() + " Photo"
+        fun bindAlbum(info : Info){
+            itemView.tv_title.text = info.title
+            itemView.tv_photo_count.text = info.count
         }
     }
 }

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.posts.R
 import com.example.posts.models.Post
 
-class DetailActivity : AppCompatActivity() {
+class CommentsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,6 +14,6 @@ class DetailActivity : AppCompatActivity() {
         val post = data.getParcelable<Post>("post")
 
         setContentView(R.layout.activity_fragment)
-        supportFragmentManager.beginTransaction().replace(R.id.contentFrame, DetailFragment.getInstance(post)).commitNow()
+        supportFragmentManager.beginTransaction().replace(R.id.contentFrame, CommentsFragment.getInstance(post)).commitNow()
     }
 }
