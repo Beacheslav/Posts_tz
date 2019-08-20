@@ -1,14 +1,13 @@
 package com.example.posts.main
 
-import com.example.posts.ApiSomaku
 import com.example.posts.models.Post
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.example.posts.repo.PostRepo
+import io.reactivex.functions.Consumer
 
-class PostsPresenter : PostsContract.Presenter {
+class PostsPresenter(val postRepo: PostRepo) : PostsContract.Presenter {
 
     public var mView : PostsContract.View? = null
-    lateinit var mPosts: ArrayList<Post>
+    lateinit var mPosts: List<Post>
 
     override fun itemClick(position: Int) {
         val item = mPosts[position]
@@ -16,26 +15,19 @@ class PostsPresenter : PostsContract.Presenter {
     }
 
     override fun loadList() {
-
-        val apiSomaku = ApiSomaku.create()
-
-        apiSomaku.getPosts()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                if (result != null) {
-                    mPosts = result as ArrayList<Post>
-                    val copy = ArrayList(mPosts)
-                    copy.forEach {
-                        it.title.replace("\n", " ")
-                        it.body.replace("\n", " ")
-                    }
-                    mView?.updateListUi(copy)
-
+        postRepo.getPosts(Consumer{
+            if (it != null) {
+                mPosts = it
+                val copy = ArrayList(mPosts)
+                copy.forEach {
+                    it.title.replace("\n", " ")
+                    it.body.replace("\n", " ")
                 }
-            }, { error ->
-                error.printStackTrace()
-            })
+                mView?.updateListUi(copy)
+            }
+        }, Consumer{
+            it.printStackTrace()
+        })
     }
 
     override fun start() {

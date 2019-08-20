@@ -13,9 +13,6 @@ interface InfoContract {
         fun loadListAlbum(id : Int?)
 
         fun loadAutor(id : Int?)
-
-        fun loadPhotos()
-
     }
 
     interface View : BaseView<Presenter> {

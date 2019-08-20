@@ -9,9 +9,11 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.posts.ApiSomaku
 import com.example.posts.InfoAdapter
 import com.example.posts.R
 import com.example.posts.models.Autor
+import com.example.posts.repo.InfoRepoImplemented
 import kotlinx.android.synthetic.main.fragment_info.view.*
 
 class InfoFragment : Fragment(), InfoContract.View {
@@ -28,7 +30,7 @@ class InfoFragment : Fragment(), InfoContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mUserId = it?.getInt("user_id")!! }
-        mPresenter = InfoPresenter()
+        mPresenter = InfoPresenter(InfoRepoImplemented(ApiSomaku.create()))
     }
 
     @SuppressLint("WrongConstant")

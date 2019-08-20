@@ -11,10 +11,12 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.posts.ApiSomaku
 import com.example.posts.CommentsAdapter
 import com.example.posts.R
 import com.example.posts.info.InfoActivity
 import com.example.posts.models.*
+import com.example.posts.repo.CommentsRepoImplemented
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
 class CommentsFragment : Fragment(), CommentsContract.View {
@@ -30,7 +32,7 @@ class CommentsFragment : Fragment(), CommentsContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mPost = it?.getParcelable("post")!! }
-        mPresenter = CommentsPresenter()
+        mPresenter = CommentsPresenter(CommentsRepoImplemented(ApiSomaku.create()))
     }
 
     @SuppressLint("WrongConstant")

@@ -10,19 +10,22 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.posts.ApiSomaku
 import com.example.posts.PostsAdapter
 import com.example.posts.R
 import com.example.posts.detail.CommentsActivity
 import com.example.posts.models.Post
+import com.example.posts.repo.PostRepoImplemented
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
 class PostsFragment : Fragment(), PostsContract.View{
-
+//Ижектим презентеры в фрагменты, репозитории в презентеры, апи в репозитории
 
     override fun setPresenter(presenter: PostsContract.Presenter) {
 
     }
 
+    //@Inject
     lateinit var mPresenter: PostsPresenter
     lateinit var mAdapter: PostsAdapter
 
@@ -37,8 +40,6 @@ class PostsFragment : Fragment(), PostsContract.View{
             mPresenter.itemClick(it)
         }
         v.rv_posts.adapter = mAdapter
-
-
         return v
     }
 
@@ -61,7 +62,7 @@ class PostsFragment : Fragment(), PostsContract.View{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenter = PostsPresenter()
+        mPresenter = PostsPresenter(PostRepoImplemented(ApiSomaku.create())) // Inject this on dager
     }
 
     override fun showLoadError() {

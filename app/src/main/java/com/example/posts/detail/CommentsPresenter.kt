@@ -4,10 +4,11 @@ import com.example.posts.ApiSomaku
 import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
+import com.example.posts.repo.CommentsRepo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class CommentsPresenter : CommentsContract.Presenter {
+class CommentsPresenter(val commentsRepo: CommentsRepo) : CommentsContract.Presenter {
 
     public var mView : CommentsContract.View? = null
     private var mComments : ArrayList<Comment>? = null
