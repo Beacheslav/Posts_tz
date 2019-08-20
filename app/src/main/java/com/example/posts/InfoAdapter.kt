@@ -29,6 +29,7 @@ class InfoAdapter  : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
     }
 
     fun setInfo(list: List<Info>){
+        albums.clear()
         albums.addAll(list)
         notifyDataSetChanged()
     }

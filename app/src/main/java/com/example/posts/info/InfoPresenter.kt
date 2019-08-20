@@ -64,7 +64,7 @@ class InfoPresenter : InfoContract.Presenter {
             })
     }
 
-    private fun loadPhotos() {
+    override fun loadPhotos() {
         val apiSomaku = ApiSomaku.create()
         val o = Observable.fromIterable(ArrayList(mAlbums))
             .map {
@@ -88,23 +88,6 @@ class InfoPresenter : InfoContract.Presenter {
             }, {
                 it.printStackTrace()
             })
-    }
-
-    override fun loadPhotos(id: Int) {
-//        val apiSomaku = ApiSomaku.create()
-//        apiSomaku.getPhotos(id)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe({ result ->
-//                if (result != null) {
-//                    mPhotos = result as ArrayList<Photo>
-//                    mView?.updatePhotoCount(mPhotos!!.size, id)
-//                    mPhotos = null
-//                }
-//            }, { error ->
-//                mView?.showLoadError()
-//                error.printStackTrace()
-//            })
     }
 
     override fun start() {

@@ -14,7 +14,7 @@ interface InfoContract {
 
         fun loadAutor(id : Int?)
 
-        fun loadPhotos(id : Int)
+        fun loadPhotos()
 
     }
 
