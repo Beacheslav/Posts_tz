@@ -10,14 +10,18 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.posts.ApiSomaku
+import com.example.posts.App
 import com.example.posts.InfoAdapter
 import com.example.posts.R
+import com.example.posts.dagger.DaggerPresenterComponent
 import com.example.posts.models.Autor
 import com.example.posts.repo.InfoRepoImplemented
 import kotlinx.android.synthetic.main.fragment_info.view.*
+import javax.inject.Inject
 
 class InfoFragment : Fragment(), InfoContract.View {
 
+    @Inject
     lateinit var mPresenter: InfoPresenter
     lateinit var mAdapter: InfoAdapter
     private var mUserId: Int? = null
@@ -30,7 +34,8 @@ class InfoFragment : Fragment(), InfoContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mUserId = it?.getInt("user_id")!! }
-        mPresenter = InfoPresenter(InfoRepoImplemented(ApiSomaku.create()))
+        //mPresenter = InfoPresenter(InfoRepoImplemented(ApiSomaku.create()))
+        App.presenterComponent.injectInfoPresenter(this)
     }
 
     @SuppressLint("WrongConstant")

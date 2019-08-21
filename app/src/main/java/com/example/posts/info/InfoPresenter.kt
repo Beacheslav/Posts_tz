@@ -11,8 +11,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class InfoPresenter(val infoRepo: InfoRepo) : InfoContract.Presenter {
+class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.Presenter {
 
     public var mView: InfoContract.View? = null
     private var mAutor: Autor? = null

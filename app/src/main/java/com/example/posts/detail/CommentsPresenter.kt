@@ -7,8 +7,9 @@ import com.example.posts.models.Post
 import com.example.posts.repo.CommentsRepo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class CommentsPresenter(val commentsRepo: CommentsRepo) : CommentsContract.Presenter {
+class CommentsPresenter @Inject constructor(val commentsRepo: CommentsRepo) : CommentsContract.Presenter {
 
     public var mView : CommentsContract.View? = null
     private var mComments : ArrayList<Comment>? = null

@@ -3,8 +3,9 @@ package com.example.posts.main
 import com.example.posts.models.Post
 import com.example.posts.repo.PostRepo
 import io.reactivex.functions.Consumer
+import javax.inject.Inject
 
-class PostsPresenter(val postRepo: PostRepo) : PostsContract.Presenter {
+class PostsPresenter @Inject constructor (val postRepo: PostRepo) : PostsContract.Presenter {
 
     public var mView : PostsContract.View? = null
     lateinit var mPosts: List<Post>

@@ -12,15 +12,19 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.posts.ApiSomaku
+import com.example.posts.App
 import com.example.posts.CommentsAdapter
 import com.example.posts.R
+import com.example.posts.dagger.DaggerPresenterComponent
 import com.example.posts.info.InfoActivity
 import com.example.posts.models.*
 import com.example.posts.repo.CommentsRepoImplemented
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import javax.inject.Inject
 
 class CommentsFragment : Fragment(), CommentsContract.View {
 
+    @Inject
     lateinit var mPresenter: CommentsPresenter
     lateinit var mAdapter: CommentsAdapter
     lateinit var mPost : Post
@@ -32,7 +36,8 @@ class CommentsFragment : Fragment(), CommentsContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mPost = it?.getParcelable("post")!! }
-        mPresenter = CommentsPresenter(CommentsRepoImplemented(ApiSomaku.create()))
+        //mPresenter = CommentsPresenter(CommentsRepoImplemented(ApiSomaku.create()))
+        App.presenterComponent.injectCommentsPresenter(this)
     }
 
     @SuppressLint("WrongConstant")

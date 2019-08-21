@@ -11,7 +11,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-
+import androidx.annotation.NonNull
+import timber.log.Timber
 
 
 interface ApiSomaku {
@@ -36,7 +37,9 @@ interface ApiSomaku {
     companion object Factory {
         fun create(): ApiSomaku {
 
-            val interceptor = HttpLoggingInterceptor()
+            Timber.plant(Timber.DebugTree())
+
+            val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Timber.i(message) })
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
