@@ -9,14 +9,14 @@ import io.reactivex.schedulers.Schedulers
 
 class CommentsRepoImplemented(val api : ApiSomaku) : CommentsRepo {
 
-    override fun loadAutor(id : Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>) {
+    override fun getAutor(id : Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>) {
         api.getAutor(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(consumer, errorConsumer)
     }
 
-    override fun loadComments(id : Int, consumer: Consumer<List<Comment>>, errorConsumer: Consumer<Throwable>) {
+    override fun getComments(id : Int, consumer: Consumer<List<Comment>>, errorConsumer: Consumer<Throwable>) {
         api.getComments(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())

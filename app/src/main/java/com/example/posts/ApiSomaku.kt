@@ -21,36 +21,14 @@ interface ApiSomaku {
     fun getPosts(): Single<ArrayList<Post>>
 
     @GET("/comments")
-    fun getComments(@Query("postId") id : Int): Single<ArrayList<Comment>>
+    fun getComments(@Query("postId") id: Int): Single<ArrayList<Comment>>
 
     @GET("/users")
-    fun getAutor(@Query("id") id : Int): Single<ArrayList<Autor>>
+    fun getAutor(@Query("id") id: Int): Single<ArrayList<Autor>>
 
     @GET("/albums")
-    fun getAlbums(@Query("userId") id : Int): Single<ArrayList<Album>>
+    fun getAlbums(@Query("userId") id: Int): Single<ArrayList<Album>>
 
     @GET("/photos")
-    fun getPhotos(@Query("albumId") id : Int): Single<ArrayList<Photo>>
-
-
-
-    companion object Factory {
-        fun create(): ApiSomaku {
-
-            Timber.plant(Timber.DebugTree())
-
-            val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Timber.i(message) })
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-            val retrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://www.somaku.com")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client)
-                .build()
-
-            return retrofit.create(ApiSomaku::class.java)
-        }
-    }
+    fun getPhotos(@Query("albumId") id: Int): Single<ArrayList<Photo>>
 }

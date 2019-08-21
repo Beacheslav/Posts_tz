@@ -65,8 +65,6 @@ class PostsFragment : Fragment(), PostsContract.View{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //mPresenter = PostsPresenter(PostRepoImplemented(ApiSomaku.create())) // Inject this on dager
-        //DaggerPostPresenterComponent.create().injectPostPresenter(this)
         App.presenterComponent.injectPostPresenter(this)
     }
 

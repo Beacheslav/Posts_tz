@@ -6,6 +6,6 @@ import io.reactivex.functions.Consumer
 
 interface CommentsRepo {
 
-    fun loadAutor(id : Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>)
-    fun loadComments(id : Int, consumer: Consumer<List<Comment>>, errorConsumer: Consumer<Throwable>)
+    fun getAutor(id : Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>)
+    fun getComments(id : Int, consumer: Consumer<List<Comment>>, errorConsumer: Consumer<Throwable>)
 }

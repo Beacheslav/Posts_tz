@@ -6,6 +6,7 @@ import com.example.posts.models.Comment
 import com.example.posts.models.Post
 import com.example.posts.repo.CommentsRepo
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -22,36 +23,26 @@ class CommentsPresenter @Inject constructor(val commentsRepo: CommentsRepo) : Co
 
     override fun loadComments(post : Post) {
 
-        val apiSomaku = ApiSomaku.create()
-        apiSomaku.getComments(post.id)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                if (result != null) {
-                    mPost = post
-                    mComments = result as ArrayList<Comment>
-                    mView?.updateListUi(mComments, mAutor)
-                }
-            }, { error ->
-                error.printStackTrace()
-            })
+        commentsRepo.getComments(post.id, Consumer {
+            mPost = post
+            mComments = it as ArrayList<Comment>
+            mView?.updateListUi(mComments, mAutor)
+        }, Consumer {
+            mView?.showLoadError()
+            it.printStackTrace()
+        })
     }
 
     override fun loadAutor(id: Int) {
 
-        val apiSomaku = ApiSomaku.create()
-        apiSomaku.getAutor(id)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                if (result != null) {
-                    val listAutor = result as ArrayList<Autor>
-                    mAutor = listAutor[0]
-                    mView?.updateListUi(mComments, mAutor)
-                }
-            }, { error ->
-                error.printStackTrace()
-            })
+        commentsRepo.getAutor(id, Consumer {
+            val listAutor = it as ArrayList<Autor>
+            mAutor = listAutor[0]
+            mView?.updateListUi(mComments, mAutor)
+        }, Consumer {
+            mView?.showLoadError()
+            it.printStackTrace()
+        })
     }
 
     override fun start() {

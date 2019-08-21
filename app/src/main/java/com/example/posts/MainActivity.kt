@@ -10,7 +10,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_fragment)
-        supportFragmentManager.beginTransaction().replace(R.id.contentFrame,
+        supportFragmentManager.beginTransaction().replace(
+            R.id.contentFrame,
             PostsFragment.getInstance()
         ).commitNow()
     }
