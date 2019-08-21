@@ -1,13 +1,10 @@
 package com.example.posts.detail
 
-import com.example.posts.ApiSomaku
 import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
 import com.example.posts.repo.CommentsRepo
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CommentsPresenter @Inject constructor(val commentsRepo: CommentsRepo) : CommentsContract.Presenter {
@@ -43,9 +40,5 @@ class CommentsPresenter @Inject constructor(val commentsRepo: CommentsRepo) : Co
             mView?.showLoadError()
             it.printStackTrace()
         })
-    }
-
-    override fun start() {
-        return
     }
 }

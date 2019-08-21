@@ -1,19 +1,9 @@
 package com.example.posts
 
 import com.example.posts.models.*
-import io.reactivex.Observable
 import io.reactivex.Single
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import androidx.annotation.NonNull
-import timber.log.Timber
-
 
 interface ApiSomaku {
 

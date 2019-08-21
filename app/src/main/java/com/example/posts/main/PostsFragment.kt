@@ -10,23 +10,15 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.posts.ApiSomaku
 import com.example.posts.App
 import com.example.posts.PostsAdapter
 import com.example.posts.R
-import com.example.posts.dagger.DaggerPresenterComponent
 import com.example.posts.detail.CommentsActivity
 import com.example.posts.models.Post
-import com.example.posts.repo.PostRepoImplemented
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
 class PostsFragment : Fragment(), PostsContract.View{
-//Ижектим презентеры в фрагменты, репозитории в презентеры, апи в репозитории
-
-    override fun setPresenter(presenter: PostsContract.Presenter) {
-
-    }
 
     @Inject
     lateinit var mPresenter: PostsPresenter
@@ -77,20 +69,6 @@ class PostsFragment : Fragment(), PostsContract.View{
     override fun updateListUi(posts : ArrayList<Post>) {
         mAdapter.posts = posts
         mAdapter.notifyDataSetChanged()
-    }
-
-    override fun updateUi() {
-//        v.tv.text = "Default"
-    }
-
-    override fun isActive() : Boolean {
-        return isAdded
-    }
-
-    override fun showProgressBar() {
-    }
-
-    override fun hideProgressBar() {
     }
 
     companion object {

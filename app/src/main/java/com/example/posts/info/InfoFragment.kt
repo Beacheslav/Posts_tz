@@ -9,13 +9,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.posts.ApiSomaku
 import com.example.posts.App
 import com.example.posts.InfoAdapter
 import com.example.posts.R
-import com.example.posts.dagger.DaggerPresenterComponent
 import com.example.posts.models.Autor
-import com.example.posts.repo.InfoRepoImplemented
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import javax.inject.Inject
 
@@ -27,14 +24,9 @@ class InfoFragment : Fragment(), InfoContract.View {
     private var mUserId: Int? = null
 
 
-    override fun  setPresenter(presenter: InfoContract.Presenter) {
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mUserId = it?.getInt("user_id")!! }
-        //mPresenter = InfoPresenter(InfoRepoImplemented(ApiSomaku.create()))
         App.presenterComponent.injectInfoPresenter(this)
     }
 
@@ -67,7 +59,7 @@ class InfoFragment : Fragment(), InfoContract.View {
     }
 
     override fun updatePhotoCount(count: Int, id: Int) {
-        mAdapter.notifyItemChanged(id%10 + 1, count)               //FIXME: КОСТЫЛЬ
+        mAdapter.notifyItemChanged(id%10 + 1, count)
     }
 
     override fun showList(list: List<InfoAdapter.Info>?) {
@@ -81,18 +73,6 @@ class InfoFragment : Fragment(), InfoContract.View {
         mAdapter.setAutor(mAutor)
     }
 
-    override fun updateUi() {
-    }
-
-    override fun isActive() : Boolean {
-        return isAdded
-    }
-
-    override fun showProgressBar() {
-    }
-
-    override fun hideProgressBar() {
-    }
 
     companion object {
         fun getInstance(userId : Int) : InfoFragment{

@@ -1,16 +1,13 @@
 package com.example.posts.info
 
-import com.example.posts.ApiSomaku
 import com.example.posts.InfoAdapter
 import com.example.posts.models.Album
 import com.example.posts.models.Autor
 import com.example.posts.models.Photo
 import com.example.posts.repo.InfoRepo
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.Presenter {
@@ -68,8 +65,4 @@ class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.
                 emiter.onError(it)
             })
         }
-
-    override fun start() {
-        return
-    }
 }

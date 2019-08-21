@@ -30,8 +30,4 @@ class PostsPresenter @Inject constructor (val postRepo: PostRepo) : PostsContrac
             it.printStackTrace()
         })
     }
-
-    override fun start() {
-
-    }
 }

@@ -7,6 +7,7 @@ import com.example.posts.main.PostsPresenter
 import com.example.posts.repo.*
 import dagger.Module
 import dagger.Provides
+import javax.inject.Scope
 
 @Module
 class PresenterModule {

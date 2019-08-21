@@ -4,9 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.posts.models.Album
 import com.example.posts.models.Autor
-import com.example.posts.models.Comment
 import kotlinx.android.synthetic.main.item_album.view.*
 import kotlinx.android.synthetic.main.item_autor.view.*
 import kotlinx.android.synthetic.main.item_header.view.tv_title

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.posts.App
 import com.example.posts.CommentsAdapter
 import com.example.posts.R
-
 import com.example.posts.info.InfoActivity
 import com.example.posts.models.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
@@ -27,22 +26,17 @@ class CommentsFragment : Fragment(), CommentsContract.View {
     lateinit var mAdapter: CommentsAdapter
     lateinit var mPost : Post
 
-    override fun  setPresenter(presenter: CommentsContract.Presenter) {
-
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mPost = it?.getParcelable("post")!! }
-        //mPresenter = CommentsPresenter(CommentsRepoImplemented(ApiSomaku.create()))
         App.presenterComponent.injectCommentsPresenter(this)
     }
 
     @SuppressLint("WrongConstant")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mPresenter.start()
         val v = inflater.inflate(R.layout.fragment_detail, container, false)
         v.rv_comments.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
         mAdapter = CommentsAdapter(null, null, mPost){
@@ -89,15 +83,6 @@ class CommentsFragment : Fragment(), CommentsContract.View {
         mAdapter.notifyDataSetChanged()
     }
 
-    override fun isActive() : Boolean {
-        return isAdded
-    }
-
-    override fun showProgressBar() {
-    }
-
-    override fun hideProgressBar() {
-    }
 
     companion object {
         fun getInstance(post : Post) : CommentsFragment{
