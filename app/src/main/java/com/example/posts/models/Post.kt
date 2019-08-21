@@ -2,12 +2,16 @@ package com.example.posts.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity
 data class Post(
-    val userId: Int,
-    val id: Int,
-    val title: String,
-    val body: String
+    @PrimaryKey val userId: Int,
+    @ColumnInfo(name = "id") val id: Int,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "body") val body: String
 ) : Parcelable{
 
     constructor(parcel: Parcel) : this(
