@@ -1,6 +1,8 @@
 package com.example.posts.dagger
 
+import android.util.Log
 import com.example.posts.ApiSomaku
+import com.github.ajalt.timberkt.Timber
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -30,7 +32,12 @@ class ApiModule {
     @Provides
     @Singleton
     fun provideClient() :OkHttpClient {
-        val interceptor = HttpLoggingInterceptor()
+        val loger = object :  HttpLoggingInterceptor.Logger{
+            override fun log(message: String) {
+                Log.d("OkHttp", message)
+            }
+        }
+        val interceptor = HttpLoggingInterceptor(loger)
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
         return client

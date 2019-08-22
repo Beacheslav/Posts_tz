@@ -4,6 +4,6 @@ import com.example.posts.models.Post
 import io.reactivex.functions.Consumer
 
 interface PostRepo {
-    fun getPostsOfApi(consumer: Consumer<List<Post>>, errorConsumer: Consumer<Throwable>)
+    fun getPosts(consumer: Consumer<List<Post>>, errorConsumer: Consumer<Throwable>)
     fun getPostsOfDb(consumer: Consumer<List<Post>>, errorConsumer: Consumer<Throwable>)
 }

@@ -1,8 +1,6 @@
 package com.example.posts.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.posts.models.Post
 import io.reactivex.Single
 
@@ -18,6 +16,6 @@ interface PostDao {
     @Insert
     fun insert(post: Post)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(posts : List<Post>)
 }
