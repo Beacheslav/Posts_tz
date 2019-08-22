@@ -16,7 +16,7 @@ class PostsPresenter @Inject constructor (val postRepo: PostRepo) : PostsContrac
     }
 
     override fun loadList() {
-        postRepo.getPosts(Consumer{
+        postRepo.getPostsOfApi(Consumer{
             if (it != null) {
                 mPosts = it
                 val copy = ArrayList(mPosts)

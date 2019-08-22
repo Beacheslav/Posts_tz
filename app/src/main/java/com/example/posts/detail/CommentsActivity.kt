@@ -11,7 +11,7 @@ class CommentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val data = intent.extras
-        val post = data.getParcelable<Post>("post")
+        val post = data?.getParcelable<Post>("post") ?: return
 
         setContentView(R.layout.activity_fragment)
         supportFragmentManager.beginTransaction().replace(R.id.contentFrame, CommentsFragment.getInstance(post)).commitNow()

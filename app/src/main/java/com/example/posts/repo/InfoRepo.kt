@@ -6,7 +6,12 @@ import com.example.posts.models.Photo
 import io.reactivex.functions.Consumer
 
 interface InfoRepo {
-    fun getAutor(id : Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>)
-    fun getAlbums(userId : Int, consumer: Consumer<List<Album>>, errorConsumer: Consumer<Throwable>)
-    fun getPhotos(albumId : Int, consumer: Consumer<List<Photo>>, errorConsumer: Consumer<Throwable>)
+
+    fun getAutorOfApi(id : Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>)
+    fun getAlbumsOfApi(userId : Int, consumer: Consumer<List<Album>>, errorConsumer: Consumer<Throwable>)
+    fun getPhotosOfApi(albumId : Int, consumer: Consumer<List<Photo>>, errorConsumer: Consumer<Throwable>)
+
+    fun getAlbumsOfDb(userId: Int, consumer: Consumer<List<Album>>, errorConsumer: Consumer<Throwable>)
+    fun getPhotosOfBd(userId: Int, consumer: Consumer<List<Photo>>, errorConsumer: Consumer<Throwable>)
+    fun getAutorOfBd(id: Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>)
 }

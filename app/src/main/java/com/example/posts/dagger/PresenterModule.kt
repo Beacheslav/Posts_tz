@@ -1,6 +1,7 @@
 package com.example.posts.dagger
 
 import com.example.posts.ApiSomaku
+import com.example.posts.db.*
 import com.example.posts.detail.CommentsPresenter
 import com.example.posts.info.InfoPresenter
 import com.example.posts.main.PostsPresenter
@@ -17,8 +18,8 @@ class PresenterModule {
     }
 
     @Provides
-    fun providesPostRepo(api : ApiSomaku): PostRepo {
-        return PostRepoImplemented(api)
+    fun providesPostRepo(api : ApiSomaku, postDao: PostDao): PostRepo {
+        return PostRepoImplemented(api, postDao)
     }
 
     @Provides
@@ -27,8 +28,8 @@ class PresenterModule {
     }
 
     @Provides
-    fun providesCommentRepo(api : ApiSomaku): CommentsRepo {
-        return CommentsRepoImplemented(api)
+    fun providesCommentRepo(api : ApiSomaku, autorDao : AutorDao, commentDao : CommentDao): CommentsRepo {
+        return CommentsRepoImplemented(api, autorDao, commentDao)
     }
 
     @Provides
@@ -37,7 +38,7 @@ class PresenterModule {
     }
 
     @Provides
-    fun providesInfoRepo(api : ApiSomaku): InfoRepo {
-        return InfoRepoImplemented(api)
+    fun providesInfoRepo(api : ApiSomaku, albumDao: AlbumDao, photoDao: PhotoDao, autorDao: AutorDao): InfoRepo {
+        return InfoRepoImplemented(api, albumDao, photoDao, autorDao)
     }
 }

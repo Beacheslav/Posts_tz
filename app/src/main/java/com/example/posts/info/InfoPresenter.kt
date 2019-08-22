@@ -17,7 +17,7 @@ class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.
 
     override fun loadAutor(userId: Int?) {
         if (userId == null) return
-        infoRepo.getAutor(userId, Consumer {
+        infoRepo.getAutorOfApi(userId, Consumer {
 
             val resp = it as ArrayList<Autor>
             if (resp.isNotEmpty()) {
@@ -35,7 +35,7 @@ class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.
     override fun loadListAlbum(userId: Int?) {
         if (userId == null) return
 
-        infoRepo.getAlbums(userId, Consumer{
+        infoRepo.getAlbumsOfApi(userId, Consumer{
             Observable.fromIterable(it)
                 .flatMap {  albumSource ->
                     Observable.zip(
@@ -58,7 +58,7 @@ class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.
 
     fun photosToObservable(albumId: Int): Observable<List<Photo>> =
         Observable.create { emiter ->
-            infoRepo.getPhotos(albumId, Consumer {
+            infoRepo.getPhotosOfApi(albumId, Consumer {
                 emiter.onNext(it)
                 emiter.onComplete()
             }, Consumer {

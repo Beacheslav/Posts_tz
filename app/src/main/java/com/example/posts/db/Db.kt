@@ -8,7 +8,8 @@ import com.example.posts.models.*
 
 @Database(
     entities = [Album::class, Autor::class, Comment::class, Photo::class, Post::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 
 abstract class Db : RoomDatabase(){
