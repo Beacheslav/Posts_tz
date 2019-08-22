@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "comments")
 data class Comment(
     @PrimaryKey val postId: Int,
     @ColumnInfo(name = "id") val id: Int,
