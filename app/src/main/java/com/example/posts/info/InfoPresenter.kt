@@ -1,11 +1,13 @@
 package com.example.posts.info
 
+import android.util.Log
 import com.example.posts.InfoAdapter
 import com.example.posts.models.Album
 import com.example.posts.models.Autor
 import com.example.posts.models.Photo
 import com.example.posts.repo.InfoRepo
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
@@ -62,6 +64,7 @@ class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.
                 emiter.onNext(it)
                 emiter.onComplete()
             }, Consumer {
+                it.printStackTrace()
                 emiter.onError(it)
             })
         }

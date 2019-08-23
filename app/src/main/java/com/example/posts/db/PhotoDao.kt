@@ -13,8 +13,8 @@ interface PhotoDao {
     @Query("SELECT * FROM photos")
     fun getAll(): Single<List<Photo>>
 
-    @Query("SELECT * FROM photos WHERE id = :id")
-    fun equalsId(id: Int): Single<List<Photo>>
+    @Query("SELECT * FROM photos WHERE albumId = :albumId")
+    fun equalsId(albumId: Int): Single<List<Photo>>
 
     @Insert
     fun insert(photo: Photo)
