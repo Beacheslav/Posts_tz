@@ -20,7 +20,7 @@ class CommentsPresenter @Inject constructor(val commentsRepo: CommentsRepo) : Co
 
     override fun loadComments(post : Post) {
 
-        commentsRepo.getCommentsOfApi(post.id, Consumer {
+        commentsRepo.getComments(post.id, Consumer {
             mPost = post
             mComments = it as ArrayList<Comment>
             mView?.updateListUi(mComments, mAutor)
@@ -32,7 +32,8 @@ class CommentsPresenter @Inject constructor(val commentsRepo: CommentsRepo) : Co
 
     override fun loadAutor(id: Int) {
 
-        commentsRepo.getAutorOfApi(id, Consumer {
+        commentsRepo.getAutor(id, Consumer {
+            if (it.isEmpty()) return@Consumer
             val listAutor = it as ArrayList<Autor>
             mAutor = listAutor[0]
             mView?.updateListUi(mComments, mAutor)

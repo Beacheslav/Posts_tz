@@ -1,7 +1,6 @@
 package com.example.posts.repo
 
 import com.example.posts.ApiSomaku
-import com.example.posts.InfoAdapter
 import com.example.posts.db.AlbumDao
 import com.example.posts.db.AutorDao
 import com.example.posts.db.PhotoDao

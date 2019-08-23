@@ -13,8 +13,8 @@ interface CommentDao {
     @Query("SELECT * FROM comments")
     fun getAll(): Single<List<Comment>>
 
-    @Query("SELECT * FROM comments WHERE id = :id")
-    fun equalsId(id: Int): Single<List<Comment>>
+    @Query("SELECT * FROM comments WHERE postId = :postId")
+    fun equalsId(postId: Int): Single<List<Comment>>
 
     @Insert
     fun insert(comment: Comment)
