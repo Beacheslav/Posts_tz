@@ -60,6 +60,11 @@ class CommentsFragment : Fragment(), CommentsContract.View {
         mPresenter.mView = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.commentsRepo.destroy()
+    }
+
     override fun showAlbums(userId: Int) {
         if (context == null) return
         val intent = Intent (context, InfoActivity :: class.java)

@@ -49,6 +49,11 @@ class PostsFragment : Fragment(), PostsContract.View{
         mPresenter.mView = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.postRepo.destroy()
+    }
+
     override fun onResume() {
         super.onResume()
         mPresenter.mView = this

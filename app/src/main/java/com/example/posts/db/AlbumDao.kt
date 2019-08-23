@@ -2,6 +2,7 @@ package com.example.posts.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.posts.models.Album
 import io.reactivex.Single
@@ -18,7 +19,7 @@ interface AlbumDao {
     @Insert
     fun insert(album : Album)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(albums : List<Album>)
 
 }

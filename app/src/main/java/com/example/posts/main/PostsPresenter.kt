@@ -2,6 +2,7 @@ package com.example.posts.main
 
 import com.example.posts.models.Post
 import com.example.posts.repo.PostRepo
+import io.reactivex.exceptions.CompositeException
 import io.reactivex.functions.Consumer
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -19,6 +20,7 @@ class PostsPresenter @Inject constructor (val postRepo: PostRepo) : PostsContrac
     override fun loadList() {
 
         postRepo.getPosts(Consumer{
+
             if (it != null) {
                 mPosts = it
                 val copy = ArrayList(mPosts)
@@ -29,7 +31,7 @@ class PostsPresenter @Inject constructor (val postRepo: PostRepo) : PostsContrac
                 mView?.updateListUi(copy)
             }
         }, Consumer{
-            if(it is UnknownHostException){
+            if(it is UnknownHostException || it is CompositeException){
                 mView?.showLoadError()
             }
             it.printStackTrace()

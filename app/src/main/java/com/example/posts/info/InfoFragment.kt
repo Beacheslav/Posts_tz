@@ -52,6 +52,11 @@ class InfoFragment : Fragment(), InfoContract.View {
         mPresenter.mView = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.infoRepo.destroy()
+    }
+
     override fun showLoadError() {
         if (context != null){
             Toast.makeText(context, "An error occurred during networking" , Toast.LENGTH_LONG).show()

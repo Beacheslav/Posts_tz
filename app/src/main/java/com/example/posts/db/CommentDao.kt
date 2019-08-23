@@ -2,6 +2,7 @@ package com.example.posts.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.posts.models.Comment
 import io.reactivex.Single
@@ -18,6 +19,6 @@ interface CommentDao {
     @Insert
     fun insert(comment: Comment)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(comments : List<Comment>)
 }

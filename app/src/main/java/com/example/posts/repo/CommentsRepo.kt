@@ -10,4 +10,5 @@ interface CommentsRepo {
     fun getCommentsOfApi(id : Int, consumer: Consumer<List<Comment>>, errorConsumer: Consumer<Throwable>)
     fun getAutorOfBd(id: Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>)
     fun getCommentsOfBd(id: Int, consumer: Consumer<List<Comment>>, errorConsumer: Consumer<Throwable>)
+    fun destroy()
 }
