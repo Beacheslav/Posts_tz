@@ -14,7 +14,11 @@ import io.reactivex.schedulers.Schedulers
 
 class CommentsRepoImplemented(val api : ApiSomaku, val autorDao: AutorDao, val commentDao: CommentDao) : CommentsRepo {
 
-    val disposable = CompositeDisposable()
+    var disposable = CompositeDisposable()
+
+    override fun create() {
+        disposable = CompositeDisposable()
+    }
 
     override fun getAutor(id : Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>) {
 

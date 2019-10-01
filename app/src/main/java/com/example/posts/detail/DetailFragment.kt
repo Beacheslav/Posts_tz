@@ -3,26 +3,27 @@ package com.example.posts.detail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.posts.App
 import com.example.posts.CommentsAdapter
 import com.example.posts.R
+import com.example.posts.models.Autor
+import com.example.posts.models.Comment
+import com.example.posts.models.Post
 import com.example.posts.info.InfoActivity
-import com.example.posts.models.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import javax.inject.Inject
+import moxy.MvpAppCompatFragment
+import moxy.presenter.InjectPresenter
 
-class CommentsFragment : Fragment(), CommentsContract.View {
+class DetailFragment : MvpAppCompatFragment(), DetailView {
 
-    @Inject
-    lateinit var mPresenter: CommentsPresenter
+    @InjectPresenter
+    lateinit var mPresenter : DetailPresenter
+
     lateinit var mAdapter: CommentsAdapter
     lateinit var mPost : Post
 
@@ -31,7 +32,6 @@ class CommentsFragment : Fragment(), CommentsContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mPost = it?.getParcelable("post")!! }
-        App.presenterComponent.injectCommentsPresenter(this)
     }
 
     @SuppressLint("WrongConstant")
@@ -47,17 +47,10 @@ class CommentsFragment : Fragment(), CommentsContract.View {
         return v
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        mPresenter.mView = this
+    override fun loadScreen() {
+        mPresenter.commentsRepo.create()
         mPresenter.loadComments(mPost)
         mPresenter.loadAutor(mPost.userId)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mPresenter.mView = null
     }
 
     override fun onDestroy() {
@@ -69,7 +62,6 @@ class CommentsFragment : Fragment(), CommentsContract.View {
         if (context == null) return
         val intent = Intent (context, InfoActivity :: class.java)
         intent.putExtra("user_id", userId)
-        Log.i("Comment.id : ", userId.toString())
         context!!.startActivity(intent)
     }
 
@@ -90,8 +82,8 @@ class CommentsFragment : Fragment(), CommentsContract.View {
 
 
     companion object {
-        fun getInstance(post : Post) : CommentsFragment{
-            return CommentsFragment().apply { arguments = Bundle().apply { putParcelable("post", post) } }
+        fun getInstance(post : Post) : DetailFragment{
+            return DetailFragment().apply { arguments = Bundle().apply { putParcelable("post", post) } }
         }
     }
 }

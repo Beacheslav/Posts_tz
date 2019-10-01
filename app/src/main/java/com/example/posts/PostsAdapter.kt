@@ -12,7 +12,7 @@ class PostsAdapter(
     val clickListener: (position: Int) -> Unit
 ) : RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
         return ViewHolder(v)
     }
@@ -25,7 +25,7 @@ class PostsAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: PostsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (posts != null) {
             holder.bindPost(posts!![position])
             holder.itemView.setOnClickListener {

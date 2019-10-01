@@ -16,7 +16,11 @@ import io.reactivex.schedulers.Schedulers
 
 class InfoRepoImplemented(val api : ApiSomaku, val albumDao : AlbumDao, val photoDao: PhotoDao, val autorDao: AutorDao) : InfoRepo {
 
-    val disposable = CompositeDisposable()
+    var disposable = CompositeDisposable()
+
+    override fun create() {
+        disposable = CompositeDisposable()
+    }
 
     //API
     override fun getAlbumsOfApi(userId: Int, consumer: Consumer<List<Album>>, errorConsumer: Consumer<Throwable>) {
@@ -54,10 +58,6 @@ class InfoRepoImplemented(val api : ApiSomaku, val albumDao : AlbumDao, val phot
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(consumer, errorConsumer))
-//        disposable.add(api.getAlbums(userId)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe(consumer, errorConsumer))
     }
 
     override fun getPhotosOfApi(albumId: Int, consumer: Consumer<List<Photo>>, errorConsumer: Consumer<Throwable>) {
@@ -94,10 +94,6 @@ class InfoRepoImplemented(val api : ApiSomaku, val albumDao : AlbumDao, val phot
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(consumer, errorConsumer))
-//        disposable.add(api.getPhotos(albumId)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe(consumer, errorConsumer))
     }
 
     override fun getAutorOfApi(id: Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>) {
@@ -137,30 +133,10 @@ class InfoRepoImplemented(val api : ApiSomaku, val albumDao : AlbumDao, val phot
             .subscribe(consumer, errorConsumer))
     }
 
-    //BD
-    override fun getAlbumsOfDb(userId: Int, consumer: Consumer<List<Album>>, errorConsumer: Consumer<Throwable>) {
-        disposable.add(albumDao.equalsId(userId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(consumer, errorConsumer))
-    }
-
-    override fun getPhotosOfBd(albumId: Int, consumer: Consumer<List<Photo>>, errorConsumer: Consumer<Throwable>) {
-        disposable.add(photoDao.equalsId(albumId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(consumer, errorConsumer))
-    }
-
-    override fun getAutorOfBd(id: Int, consumer: Consumer<List<Autor>>, errorConsumer: Consumer<Throwable>) {
-        disposable.add(autorDao.equalsId(id)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(consumer, errorConsumer))
-    }
-
     override fun  destroy(){
         disposable.dispose()
         disposable.clear()
     }
+
+
 }

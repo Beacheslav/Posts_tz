@@ -1,25 +1,37 @@
 package com.example.posts.main
 
+import com.example.posts.App
 import com.example.posts.models.Post
 import com.example.posts.repo.PostRepo
 import io.reactivex.exceptions.CompositeException
 import io.reactivex.functions.Consumer
+import moxy.InjectViewState
+import moxy.MvpPresenter
 import java.net.UnknownHostException
 import javax.inject.Inject
 
-class PostsPresenter @Inject constructor (val postRepo: PostRepo) : PostsContract.Presenter {
+@InjectViewState
+class PostsPresenter : MvpPresenter<PostsView>() {
 
-    public var mView : PostsContract.View? = null
-    lateinit var mPosts: List<Post>
+    @Inject
+    lateinit var postRepo: PostRepo
 
-    override fun itemClick(position: Int) {
-        val item = mPosts[position]
-        mView?.showPost(item)
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        App.presenterComponent.injectPostRepo(this)
+        loadList()
     }
 
-    override fun loadList() {
+    lateinit var mPosts: List<Post>
 
-        postRepo.getPosts(Consumer{
+    fun itemClick(position: Int) {
+        val item = mPosts[position]
+        viewState.showPost(item)
+    }
+
+    fun loadList() {
+
+        postRepo.getPosts(Consumer {
 
             if (it != null) {
                 mPosts = it
@@ -28,11 +40,11 @@ class PostsPresenter @Inject constructor (val postRepo: PostRepo) : PostsContrac
                     it.title.replace("\n", " ")
                     it.body.replace("\n", " ")
                 }
-                mView?.updateListUi(copy)
+                viewState.updateListUi(copy)
             }
-        }, Consumer{
-            if(it is UnknownHostException || it is CompositeException){
-                mView?.showLoadError()
+        }, Consumer {
+            if (it is UnknownHostException || it is CompositeException) {
+                viewState.showLoadError()
             }
             it.printStackTrace()
         })

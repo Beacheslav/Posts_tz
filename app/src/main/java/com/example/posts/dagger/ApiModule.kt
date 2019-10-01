@@ -21,7 +21,7 @@ class ApiModule {
 
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://www.somaku.com")
+            .baseUrl("https://jsonplaceholder.typicode.com/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(client)
             .build()

@@ -8,23 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.posts.App
 import com.example.posts.PostsAdapter
 import com.example.posts.R
-import com.example.posts.detail.CommentsActivity
 import com.example.posts.models.Post
+import com.example.posts.detail.DetailActivity
 import kotlinx.android.synthetic.main.fragment_main.view.*
-import javax.inject.Inject
+import moxy.MvpAppCompatFragment
+import moxy.presenter.InjectPresenter
 
-class PostsFragment : Fragment(), PostsContract.View{
+class PostsFragment : MvpAppCompatFragment(), PostsView{
 
-    @Inject
+    @InjectPresenter
     lateinit var mPresenter: PostsPresenter
     lateinit var mAdapter: PostsAdapter
-
-
 
     @SuppressLint("WrongConstant")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,30 +36,14 @@ class PostsFragment : Fragment(), PostsContract.View{
     }
 
     override fun showPost(item: Post) {
-        val intent = Intent (context, CommentsActivity :: class.java)
+        val intent = Intent (context, DetailActivity :: class.java)
         intent.putExtra("post", item)
         context?.startActivity(intent)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mPresenter.mView = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.postRepo.destroy()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mPresenter.mView = this
-        mPresenter.loadList()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        App.presenterComponent.injectPostPresenter(this)
     }
 
     override fun showLoadError() {
@@ -75,6 +56,8 @@ class PostsFragment : Fragment(), PostsContract.View{
         mAdapter.posts = posts
         mAdapter.notifyDataSetChanged()
     }
+
+    override fun showMessage(message: Int) {}
 
     companion object {
         fun getInstance() : PostsFragment{

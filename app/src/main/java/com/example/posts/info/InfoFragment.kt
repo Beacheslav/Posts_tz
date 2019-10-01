@@ -7,19 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.posts.App
 import com.example.posts.InfoAdapter
 import com.example.posts.R
 import com.example.posts.models.Autor
 import kotlinx.android.synthetic.main.fragment_info.view.*
-import javax.inject.Inject
+import moxy.MvpAppCompatFragment
+import moxy.presenter.InjectPresenter
 
-class InfoFragment : Fragment(), InfoContract.View {
+class InfoFragment : MvpAppCompatFragment(), InfoView {
 
-    @Inject
-    lateinit var mPresenter: InfoPresenter
+    @InjectPresenter
+    lateinit var mPresenter : InfoPresenter
+
     lateinit var mAdapter: InfoAdapter
     private var mUserId: Int? = null
 
@@ -27,7 +27,6 @@ class InfoFragment : Fragment(), InfoContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let { mUserId = it?.getInt("user_id")!! }
-        App.presenterComponent.injectInfoPresenter(this)
     }
 
     @SuppressLint("WrongConstant")
@@ -41,15 +40,9 @@ class InfoFragment : Fragment(), InfoContract.View {
         return v
     }
 
-    override fun onResume() {
-        super.onResume()
-        mPresenter.mView = this
+    override fun loadScreen() {
+        mPresenter.infoRepo.create()
         mPresenter.loadAutor(mUserId)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mPresenter.mView = null
     }
 
     override fun onDestroy() {

@@ -1,23 +1,33 @@
 package com.example.posts.info
 
-import android.util.Log
+import com.example.posts.App
 import com.example.posts.InfoAdapter
 import com.example.posts.models.Album
 import com.example.posts.models.Autor
 import com.example.posts.models.Photo
 import com.example.posts.repo.InfoRepo
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Consumer
+import moxy.InjectViewState
+import moxy.MvpPresenter
 import javax.inject.Inject
 
-class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.Presenter {
+@InjectViewState
+class InfoPresenter : MvpPresenter<InfoView>(){
 
-    public var mView: InfoContract.View? = null
+    @Inject
+    lateinit var infoRepo: InfoRepo
+
     private var mAutor: Autor? = null
 
-    override fun loadAutor(userId: Int?) {
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        App.presenterComponent.injectInfoRepo(this)
+        viewState.loadScreen()
+    }
+
+    fun loadAutor(userId: Int?) {
         if (userId == null) return
         infoRepo.getAutorOfApi(userId, Consumer {
 
@@ -25,16 +35,16 @@ class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.
             if (resp.isNotEmpty()) {
                 mAutor = resp[0]
             }
-            mView?.showAutor(mAutor)
+            viewState.showAutor(mAutor)
             loadListAlbum(mAutor?.id)
 
         }, Consumer {
-            mView?.showLoadError()
+            viewState.showLoadError()
             it.printStackTrace()
         })
     }
 
-    override fun loadListAlbum(userId: Int?) {
+    fun loadListAlbum(userId: Int?) {
         if (userId == null) return
 
         infoRepo.getAlbumsOfApi(userId, Consumer{
@@ -50,10 +60,10 @@ class InfoPresenter @Inject constructor (val infoRepo: InfoRepo) : InfoContract.
                 }
                 .toList()
                 .subscribe { result ->
-                    mView?.showList(result)
+                    viewState.showList(result)
                 }
         }, Consumer {
-            mView?.showLoadError()
+            viewState.showLoadError()
             it.printStackTrace()
         })
     }

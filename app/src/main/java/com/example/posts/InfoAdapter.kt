@@ -18,7 +18,6 @@ class InfoAdapter  : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
     var albums : MutableList<Info> = emptyList<Info>().toMutableList()
     private val AUTOR_INFO_TYPE = 0
     private val ALBUM_TYPE = 1
-    private val counts: MutableList<Int> = emptyList<Int>().toMutableList()
     private var autor : Autor? = null
 
     fun setAutor(autor : Autor?){
@@ -61,11 +60,6 @@ class InfoAdapter  : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
             is AlbumHolder -> holder.bindAlbum(albums[position - 1])
         }
     }
-
-    fun setCounts(counts: List<Int>) {
-        this.counts.addAll(counts)
-    }
-
 
     class AutorHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
