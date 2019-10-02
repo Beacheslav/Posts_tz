@@ -1,7 +1,7 @@
 package com.example.posts.detail
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +14,17 @@ import com.example.posts.R
 import com.example.posts.models.Autor
 import com.example.posts.models.Comment
 import com.example.posts.models.Post
-import com.example.posts.info.InfoActivity
+import com.example.posts.common.Router
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 
-class DetailFragment : MvpAppCompatFragment(), DetailView {
+class CommentsFragment : MvpAppCompatFragment(), CommentsView {
+
+    var router: Router? = null
 
     @InjectPresenter
-    lateinit var mPresenter : DetailPresenter
+    lateinit var mPresenter : CommentsPresenter
 
     lateinit var mAdapter: CommentsAdapter
     lateinit var mPost : Post
@@ -59,15 +61,21 @@ class DetailFragment : MvpAppCompatFragment(), DetailView {
     }
 
     override fun showAlbums(userId: Int) {
-        if (context == null) return
-        val intent = Intent (context, InfoActivity :: class.java)
-        intent.putExtra("user_id", userId)
-        context!!.startActivity(intent)
+        router?.showAlbums(userId)
     }
 
     override fun showLoadError() {
         if (context != null){
             Toast.makeText(context, "An error occurred during networking" , Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is Router){
+            router = context
+        }else{
+            throw Exception("${context::class.simpleName}  must implement Router")
         }
     }
 
@@ -82,8 +90,8 @@ class DetailFragment : MvpAppCompatFragment(), DetailView {
 
 
     companion object {
-        fun getInstance(post : Post) : DetailFragment{
-            return DetailFragment().apply { arguments = Bundle().apply { putParcelable("post", post) } }
+        fun getInstance(post : Post) : CommentsFragment{
+            return CommentsFragment().apply { arguments = Bundle().apply { putParcelable("post", post) } }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.posts.info
+package com.example.posts.albums
 
 import com.example.posts.App
 import com.example.posts.InfoAdapter
@@ -14,7 +14,7 @@ import moxy.MvpPresenter
 import javax.inject.Inject
 
 @InjectViewState
-class InfoPresenter : MvpPresenter<InfoView>(){
+class AlbumPresenter : MvpPresenter<AlbumView>(){
 
     @Inject
     lateinit var infoRepo: InfoRepo
@@ -23,7 +23,7 @@ class InfoPresenter : MvpPresenter<InfoView>(){
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        App.presenterComponent.injectInfoRepo(this)
+        App.presenterComponent.injectInfoPresenter(this)
         viewState.loadScreen()
     }
 

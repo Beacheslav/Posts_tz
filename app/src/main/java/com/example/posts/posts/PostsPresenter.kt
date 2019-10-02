@@ -1,4 +1,4 @@
-package com.example.posts.main
+package com.example.posts.posts
 
 import com.example.posts.App
 import com.example.posts.models.Post
@@ -18,7 +18,7 @@ class PostsPresenter : MvpPresenter<PostsView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        App.presenterComponent.injectPostRepo(this)
+        App.presenterComponent.injectPostPresenter(this)
         loadList()
     }
 

@@ -1,4 +1,4 @@
-package com.example.posts.info
+package com.example.posts.albums
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -15,10 +15,10 @@ import kotlinx.android.synthetic.main.fragment_info.view.*
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 
-class InfoFragment : MvpAppCompatFragment(), InfoView {
+class AlbumFragment : MvpAppCompatFragment(), AlbumView {
 
     @InjectPresenter
-    lateinit var mPresenter : InfoPresenter
+    lateinit var mPresenter : AlbumPresenter
 
     lateinit var mAdapter: InfoAdapter
     private var mUserId: Int? = null
@@ -73,8 +73,8 @@ class InfoFragment : MvpAppCompatFragment(), InfoView {
 
 
     companion object {
-        fun getInstance(userId : Int) : InfoFragment{
-            return InfoFragment().apply { arguments = Bundle().apply { putInt("user_id", userId) } }
+        fun getInstance(userId : Int) : AlbumFragment{
+            return AlbumFragment().apply { arguments = Bundle().apply { putInt("user_id", userId) } }
         }
     }
 }

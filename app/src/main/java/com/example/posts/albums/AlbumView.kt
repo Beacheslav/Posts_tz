@@ -1,4 +1,4 @@
-package com.example.posts.info
+package com.example.posts.albums
 
 import com.example.posts.InfoAdapter
 import com.example.posts.models.Autor
@@ -7,7 +7,7 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
-interface InfoView : MvpView {
+interface AlbumView : MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun loadScreen()

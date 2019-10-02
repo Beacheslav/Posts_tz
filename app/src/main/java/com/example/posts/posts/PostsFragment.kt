@@ -1,7 +1,7 @@
-package com.example.posts.main
+package com.example.posts.posts
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +11,16 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.posts.PostsAdapter
 import com.example.posts.R
+import com.example.posts.common.Router
 import com.example.posts.models.Post
-import com.example.posts.detail.DetailActivity
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
+import java.lang.Exception
 
 class PostsFragment : MvpAppCompatFragment(), PostsView{
+
+    var router: Router? = null
 
     @InjectPresenter
     lateinit var mPresenter: PostsPresenter
@@ -36,9 +39,7 @@ class PostsFragment : MvpAppCompatFragment(), PostsView{
     }
 
     override fun showPost(item: Post) {
-        val intent = Intent (context, DetailActivity :: class.java)
-        intent.putExtra("post", item)
-        context?.startActivity(intent)
+        router?.showComments(item)
     }
 
     override fun onDestroy() {
@@ -55,6 +56,15 @@ class PostsFragment : MvpAppCompatFragment(), PostsView{
     override fun updateListUi(posts : ArrayList<Post>) {
         mAdapter.posts = posts
         mAdapter.notifyDataSetChanged()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is Router){
+            router = context
+        }else{
+            throw Exception("${context::class.simpleName}  must implement Router")
+        }
     }
 
     override fun showMessage(message: Int) {}

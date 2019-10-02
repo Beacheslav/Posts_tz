@@ -1,9 +1,10 @@
 package com.example.posts.dagger
 
 import android.content.Context
-import com.example.posts.detail.DetailPresenter
-import com.example.posts.info.InfoPresenter
-import com.example.posts.main.PostsPresenter
+import com.example.posts.MainActivity
+import com.example.posts.detail.CommentsPresenter
+import com.example.posts.albums.AlbumPresenter
+import com.example.posts.posts.PostsPresenter
 import dagger.Component
 import javax.inject.Singleton
 
@@ -13,9 +14,8 @@ interface PresenterComponent {
 
     fun context(): Context
     fun injectApp(context: Context)
-    fun injectPostRepo(postPresenter : PostsPresenter)
-    fun injectInfoRepo(infoPresenter : InfoPresenter)
-    fun injectCommentsRepo(detailPresenter : DetailPresenter)
-
+    fun injectPostPresenter(postPresenter : PostsPresenter)
+    fun injectInfoPresenter(albumPresenter : AlbumPresenter)
+    fun injectCommentsPresenter(detailPresenter : CommentsPresenter)
 }
 

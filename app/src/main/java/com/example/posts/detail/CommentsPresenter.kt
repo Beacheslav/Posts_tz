@@ -11,7 +11,7 @@ import moxy.MvpPresenter
 import javax.inject.Inject
 
 @InjectViewState
-class DetailPresenter : MvpPresenter<DetailView>(){
+class CommentsPresenter : MvpPresenter<CommentsView>(){
 
     @Inject
     lateinit var commentsRepo: CommentsRepo
@@ -22,7 +22,7 @@ class DetailPresenter : MvpPresenter<DetailView>(){
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        App.presenterComponent.injectCommentsRepo(this)
+        App.presenterComponent.injectCommentsPresenter(this)
         viewState.loadScreen()
     }
 

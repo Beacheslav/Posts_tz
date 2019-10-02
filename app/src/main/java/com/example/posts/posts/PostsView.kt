@@ -1,4 +1,4 @@
-package com.example.posts.main
+package com.example.posts.posts
 
 import com.example.posts.models.Post
 import moxy.MvpView
