@@ -11,10 +11,7 @@ import moxy.MvpPresenter
 import javax.inject.Inject
 
 @InjectViewState
-class CommentsPresenter : MvpPresenter<CommentsView>(){
-
-    @Inject
-    lateinit var commentsRepo: CommentsRepo
+class CommentsPresenter @Inject constructor(var commentsRepo: CommentsRepo) : MvpPresenter<CommentsView>(){
 
     private var mComments : ArrayList<Comment>? = null
     private var mAutor : Autor? = null
@@ -22,7 +19,6 @@ class CommentsPresenter : MvpPresenter<CommentsView>(){
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        App.presenterComponent.injectCommentsPresenter(this)
         viewState.loadScreen()
     }
 

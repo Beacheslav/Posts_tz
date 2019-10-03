@@ -8,32 +8,43 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.posts.App
 import com.example.posts.InfoAdapter
 import com.example.posts.R
+import com.example.posts.common.MvpController
 import com.example.posts.models.Autor
 import kotlinx.android.synthetic.main.fragment_info.view.*
-import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
+import javax.inject.Inject
 
-class AlbumFragment : MvpAppCompatFragment(), AlbumView {
+class AlbumController(bundle: Bundle) : MvpController(bundle), AlbumView {
 
+    override fun inject() {
+        App.presenterComponent.inject(this)
+    }
+
+    @Inject
     @InjectPresenter
     lateinit var mPresenter : AlbumPresenter
 
+    @ProvidePresenter
+    fun providePresenter() = mPresenter
+
     lateinit var mAdapter: InfoAdapter
-    private var mUserId: Int? = null
 
+    constructor(parameter : Int) : this(Bundle().apply {
+        putInt("user_id", parameter)
+    })
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments.let { mUserId = it?.getInt("user_id")!! }
+    private val mUserId by lazy {
+        args.getInt("user_id")
     }
 
     @SuppressLint("WrongConstant")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val v = inflater.inflate(R.layout.fragment_info, container, false)
-        v.rv_info.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+        v.rv_info.layoutManager = LinearLayoutManager(applicationContext, LinearLayout.VERTICAL, false)
         mAdapter = InfoAdapter()
         v.rv_info.adapter = mAdapter
 
@@ -51,9 +62,7 @@ class AlbumFragment : MvpAppCompatFragment(), AlbumView {
     }
 
     override fun showLoadError() {
-        if (context != null){
-            Toast.makeText(context, "An error occurred during networking" , Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(applicationContext, "An error occurred during networking", Toast.LENGTH_LONG).show()
     }
 
     override fun updatePhotoCount(count: Int, id: Int) {
@@ -69,12 +78,5 @@ class AlbumFragment : MvpAppCompatFragment(), AlbumView {
 
     override fun showAutor(mAutor: Autor?) {
         mAdapter.setAutor(mAutor)
-    }
-
-
-    companion object {
-        fun getInstance(userId : Int) : AlbumFragment{
-            return AlbumFragment().apply { arguments = Bundle().apply { putInt("user_id", userId) } }
-        }
     }
 }

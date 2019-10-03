@@ -11,14 +11,10 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 @InjectViewState
-class PostsPresenter : MvpPresenter<PostsView>() {
-
-    @Inject
-    lateinit var postRepo: PostRepo
+class PostsPresenter @Inject constructor(var postRepo: PostRepo) : MvpPresenter<PostsView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        App.presenterComponent.injectPostPresenter(this)
         loadList()
     }
 
@@ -30,9 +26,7 @@ class PostsPresenter : MvpPresenter<PostsView>() {
     }
 
     fun loadList() {
-
         postRepo.getPosts(Consumer {
-
             if (it != null) {
                 mPosts = it
                 val copy = ArrayList(mPosts)

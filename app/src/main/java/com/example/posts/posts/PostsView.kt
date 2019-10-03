@@ -2,16 +2,14 @@ package com.example.posts.posts
 
 import com.example.posts.models.Post
 import moxy.MvpView
-import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.SkipStrategy
-import moxy.viewstate.strategy.StateStrategyType
+import moxy.viewstate.strategy.*
 
 interface PostsView : MvpView {
 
     @StateStrategyType(SkipStrategy::class)
     fun showMessage(message: Int)
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @StateStrategyType(AddToEndStrategy::class)
     fun updateListUi(list: ArrayList<Post>)
 
     @StateStrategyType(SkipStrategy::class)

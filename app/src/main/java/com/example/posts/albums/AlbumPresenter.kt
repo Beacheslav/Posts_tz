@@ -14,10 +14,7 @@ import moxy.MvpPresenter
 import javax.inject.Inject
 
 @InjectViewState
-class AlbumPresenter : MvpPresenter<AlbumView>(){
-
-    @Inject
-    lateinit var infoRepo: InfoRepo
+class AlbumPresenter @Inject constructor(var infoRepo: InfoRepo) : MvpPresenter<AlbumView>(){
 
     private var mAutor: Autor? = null
 
