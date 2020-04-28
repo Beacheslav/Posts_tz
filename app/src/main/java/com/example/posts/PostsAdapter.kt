@@ -1,11 +1,12 @@
 package com.example.posts
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.posts.detail.DetailActivity
 import com.example.posts.models.Post
 import kotlinx.android.synthetic.main.item_post.view.*
 
@@ -38,7 +39,11 @@ class PostsAdapter (var posts : ArrayList<Post>?, val context : Context?) : Recy
 
             itemView.setOnClickListener(View.OnClickListener { v->
                 if (context != null){
-                    Toast.makeText(context, "Click on id:" + post.id, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, "Click on id:" + post.id, Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent (context, DetailActivity :: class.java)
+                    intent.putExtra("post", post)
+                    context.startActivity(intent)
                 }
             })
         }
